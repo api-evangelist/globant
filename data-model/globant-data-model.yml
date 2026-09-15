@@ -1,0 +1,86 @@
+generated: '2026-09-14'
+method: derived
+source: openapi/globant-glob-ai-public-api-openapi.json, https://glob.ai/.well-known/agent-skills/globai-catalog/SKILL.md, live GET https://glob.ai/api/catalog
+provider: Globant
+providerId: globant
+description: >-
+  Entity graph for the only Globant surface with a published contract — the Glob.AI public catalog. The
+  much larger Globant Enterprise AI entity model (agents, tools, corpora, projects, organizations,
+  agentic processes, runs) is documented in prose on docs.globant.ai but publishes no schema, so it is
+  recorded below as an unmodelled surface rather than reconstructed.
+entities:
+  - name: Catalog
+    description: The root document returned by GET /api/catalog.
+    fields:
+      - {name: version, type: string, note: 'Catalog document version; observed 1.20.0 on 2026-09-14.'}
+      - {name: groups, type: 'array<Group>'}
+      - {name: offerings, type: 'array<Offering>', note: 'Flat list of every offering, ordered by sort_order.'}
+    relationships:
+      - {type: has_many, target: Group, via: groups}
+      - {type: has_many, target: Offering, via: offerings}
+  - name: Group
+    description: A capability group that bundles related AI Pod offerings.
+    fields:
+      - {name: name, type: string, required: true}
+      - {name: description, type: string, required: true}
+      - {name: offerings, type: 'array<Offering>'}
+    relationships:
+      - {type: has_many, target: Offering, via: offerings}
+    observed_values: [Modernization, Innovation, 'Digital Delivery', 'Delivery Enablement', 'Security & Stability', 'Platform Services']
+  - name: Offering
+    description: One AI Pod offering as rendered for the anonymous audience.
+    identifier: sku_id
+    fields:
+      - {name: name, type: string, required: true}
+      - {name: sku_id, type: string, required: true, note: 'Upper-kebab SKU, e.g. MODERNIZATION-STRATEGY-ASSESSMENT, DB-MIGRATION-ASSESSMENT.'}
+      - {name: problem_statement, type: string, required: true}
+      - {name: outcome_statement, type: string, required: true}
+      - {name: what_you_get, type: 'array<string>', required: true}
+      - {name: capabilities_included, type: 'array<string>', required: true, note: 'Slugged capability references, e.g. legacy-insights, software-architecture, product-definition.'}
+      - {name: best_for, type: 'array<string>', required: true}
+      - {name: not_a_fit_for, type: 'array<string>', required: true}
+      - {name: notes, type: string, required: true}
+      - {name: group_name, type: string, required: true, note: 'Denormalised back-reference to Group.name; there is no group id.'}
+      - {name: price_per_unit_usd, type: number, note: 'Per-token price model; no monthly bundle.'}
+      - {name: unit_price_usd, type: number, note: 'Displayed price amount; pair with price_unit.'}
+      - {name: price_unit, type: string, enum: [price_per_100k_tokens, price_per_million_tokens, ''], note: 'Empty string when the offering is unpriced for this audience — all 26 offerings were empty for an anonymous caller on 2026-09-14.'}
+      - {name: sort_order, type: integer, note: 'Optional. Landing card order, lower first.'}
+      - {name: partner, type: string, note: 'Optional partner code. Observed: aws (3), salesforce (3), google (2), vercel (2), anthropic (1), nvidia (1), empty (14).'}
+    relationships:
+      - {type: belongs_to, target: Group, via: group_name}
+      - {type: has_many, target: Capability, via: capabilities_included}
+  - name: Capability
+    description: >-
+      A named delivery capability referenced by slug from an Offering. Inferred entity — the catalog
+      carries only the slug, and no capability resource is exposed to look one up.
+    identifier: slug
+    fields:
+      - {name: slug, type: string}
+    relationships:
+      - {type: belongs_to, target: Offering, via: capabilities_included}
+    note: Referenced but not resolvable; there is no GET /api/capabilities.
+  - name: Health
+    description: Response of GET /api/v1/health.
+    fields:
+      - {name: status, type: string}
+      - {name: version, type: string}
+id_conventions:
+  - {entity: Offering, scheme: 'Upper-case kebab SKU strings, domain-prefixed (MODERNIZATION-*, DB-*)'}
+  - {entity: Group, scheme: 'Human-readable name used as the join key; no surrogate id exists.'}
+unmodelled_surfaces:
+  - surface: Globant Enterprise AI (Glob.AI OS)
+    host: https://api.saia.ai
+    entities_named_in_docs: [Organization, Project, ApiToken, Assistant, Agent, AgentVersion, AgentDraft, Tool, ToolPlugin, AgenticProcess, Task, Flow, Corpus, CorpusResource, RagAssistant, RagDocument, Conversation, Message, Session, DataSet, EvaluationPlan, EvaluationResult, UsageLimit, Model, Provider, Integration, Guardrail]
+    reason: >-
+      No OpenAPI, JSON Schema or machine-readable model is published for this surface. The entity names
+      above are read off the documented endpoint tables; their fields and relationships are not. Writing
+      a relationship graph from prose would be fabrication, so it is deliberately not done.
+  - surface: Glob.AI Hubs Orchestrator
+    host: https://api.beta.glob.ai
+    entities_named_in_mcp_card: [Project, Goal, Plan, WorkItem, Run, RunAgent, Artifact, Job, AiPod, InboxItem]
+    reason: >-
+      The MCP server card names these entities in its 33 tool descriptions but publishes no inputSchema
+      per tool and the API serves no OpenAPI, so no field-level model can be derived honestly.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

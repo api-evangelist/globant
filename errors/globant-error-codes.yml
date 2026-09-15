@@ -1,0 +1,114 @@
+generated: '2026-09-14'
+method: searched
+source: https://docs.globant.ai/en/wiki?23,Error+Codes
+provider: Globant
+providerId: globant
+api: Globant Enterprise AI (Glob.AI OS)
+description: >-
+  Globant Enterprise AI publishes a numeric error-code registry covering the whole platform API. It is
+  NOT RFC 9457 problem+json: errors come back in a proprietary envelope carrying a numeric id and a
+  human-readable description, with %n placeholders interpolated with the offending field or entity.
+format: proprietary
+rfc9457: false
+envelope:
+  content_type: application/json
+  shape: |
+    {
+      "errors": {
+        "id": <numeric code>,
+        "description": "<human-readable explanation>"
+      }
+    }
+  placeholder_convention: 'Descriptions may contain %1, %2 … which are substituted with the field or entity name.'
+error_classes:
+  - {range: '1-11', theme: Entity lookup and field validation}
+  - {range: '20-21', theme: Input text and session}
+  - {range: '30-37', theme: Plugins, conversations and messages}
+  - {range: '44-48', theme: File handling}
+  - {range: '100-122', theme: Provider timeout, tokens and sessions}
+  - {range: '150-154', theme: Model-provider errors, rate limits and quotas}
+  - {range: '401-502', theme: HTTP status equivalents}
+  - {range: '1001-1103', theme: Provider configuration, search profiles and RAG assistants}
+  - {range: '2000-2050', theme: Project / Assistant / RAG configuration}
+  - {range: '2500-2504', theme: Description and timing}
+  - {range: '3000-3008', theme: Data Analyst and metadata validation}
+  - {range: '3100-3102', theme: Token and flow chat}
+  - {range: '3200-3206', theme: Usage limits}
+  - {range: '4000-4046', theme: Permissions and quotas}
+  - {range: '4100-4102', theme: UI configuration}
+  - {range: '5000-5005', theme: Query execution}
+  - {range: '8000-8034', theme: Entities, tools and guardrails}
+errors:
+  - {code: 1, message: Assistant Not Found}
+  - {code: 2, message: Provider Type Not Found}
+  - {code: 3, message: Request Not Found}
+  - {code: 5, message: Api Key Not Found, remediation: Check the API key supplied in the Authorization header.}
+  - {code: 6, message: ApiToken not found or blocked, remediation: Re-issue the project token; see API Tokens.}
+  - {code: 7, message: ApiToken out of scope, remediation: The token belongs to a different project or lacks organization scope.}
+  - {code: 8, message: Field %1 is out of range}
+  - {code: 9, message: Field %1 is required}
+  - {code: 10, message: Query Text Empty}
+  - {code: 11, message: Field %1 does not match the specified pattern}
+  - {code: 20, message: Bad Input Text}
+  - {code: 21, message: 'Session finished, login again'}
+  - {code: 30, message: Plugin not found}
+  - {code: 31, message: The plugin is disabled}
+  - {code: 32, message: Plugin not found as favorite}
+  - {code: 33, message: Conversation not found}
+  - {code: 34, message: Message not found}
+  - {code: 35, message: The conversation still contains messages}
+  - {code: 36, message: User setting not found}
+  - {code: 37, message: The conversation type does not allow changes}
+  - {code: 44, message: The selected project does not have any associated files}
+  - {code: 45, message: 'Unable to read or extract content. Please verify the file and try again'}
+  - {code: 46, message: The file format provided is not supported by this model}
+  - {code: 47, message: The file size exceeds the limit allowed by this model}
+  - {code: 48, message: 'Not Found File With This Name, please verify the fileName in the pattern'}
+  - {code: 100, message: Provider Request Timeout}
+  - {code: 101, message: Refresh token error}
+  - {code: 102, message: 'Token revoked, login again'}
+  - {code: 103, message: 'Token expired, login again'}
+  - {code: 112, message: 'Access token not found, login again'}
+  - {code: 114, message: 'Access token not valid, login again'}
+  - {code: 122, message: 'Session token error, login again'}
+  - {code: 150, message: Provider Unknown Error}
+  - {code: 151, message: Provider Rate Limit, remediation: Back off and retry; the upstream model provider throttled the call.}
+  - {code: 152, message: Provider Quota Exceeded}
+  - {code: 153, message: Provider Overcapacity}
+  - {code: 154, message: Quota exceeded, remediation: A Glob.AI OS usage limit was hit; see the Usage Limits API.}
+  - {code: 401, message: Unauthorized, http_equivalent: 401}
+  - {code: 403, message: Forbidden, http_equivalent: 403}
+  - {code: 404, message: Bad Endpoint, http_equivalent: 404}
+  - {code: 409, message: Conflict, http_equivalent: 409}
+  - {code: 413, message: Payload Too Large, http_equivalent: 413}
+  - {code: 422, message: The request was blocked by guardrails due to a policy violation, http_equivalent: 422}
+  - {code: 500, message: Internal Server Error, http_equivalent: 500}
+  - {code: 502, message: Bad Gateway, http_equivalent: 502}
+  - {code: 1001, message: Provider Configuration Error}
+  - {code: 1010, message: Search Profile Not Found}
+  - {code: 1101, message: Search Index Profile Name not found}
+  - {code: 1102, message: Request Failed}
+  - {code: 1103, message: RAG Assistant %1 Not Found}
+completeness:
+  enumerated_here: 53
+  note: >-
+    The published reference also contains dense blocks (2000-2050, 2500-2504, 3000-3008, 3100-3102,
+    3200-3206, 4000-4046, 4100-4102, 5000-5005, 8000-8034) whose individual codes are listed on the
+    provider's page but are summarised here by range rather than transcribed. The canonical registry is
+    the source URL.
+other_surfaces:
+  - surface: Glob.AI Hubs Orchestrator
+    host: api.beta.glob.ai
+    envelope: '{"detail":"<message>"}'
+    observed:
+      - {status: 401, body: '{"detail":"Authentication required"}'}
+      - {status: 404, body: '{"detail":"Not Found"}'}
+    note: FastAPI-style envelope; no published error registry.
+  - surface: Legacy gateway
+    host: api.globant.com
+    envelope: '{"status":"Error","description":" Authentication Error"}'
+    observed:
+      - {status: 401, body: '{"status":"Error","description":" Authentication Error"}'}
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

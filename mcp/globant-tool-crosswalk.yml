@@ -1,0 +1,97 @@
+generated: '2026-09-14'
+method: derived
+source: mcp/globant-orchestrator-mcp-server-card.json + openapi/globant-glob-ai-public-api-openapi.json
+provider: Globant
+providerId: globant
+description: >-
+  Crosswalk between Globant's published MCP tool surface and its published REST surface. The headline
+  finding is that they do not overlap at all: the 33 orchestrator MCP tools are bound to the Glob.AI
+  Hubs Orchestrator API (api.beta.glob.ai), which publishes NO OpenAPI, while the only OpenAPI Globant
+  publishes (glob.ai/openapi.json) describes the two unauthenticated endpoints of the marketing origin.
+  Every MCP tool is therefore mcp_only and every REST operation is rest_only. Recorded rather than
+  silently dropped, per the contract-divergence rule.
+surfaces:
+  openapi:
+    url: https://glob.ai/openapi.json
+    file: ../openapi/globant-glob-ai-public-api-openapi.json
+    title: Glob.AI public API
+    version: 1.0.0
+    operations: 2
+    gated: false
+  mcp:
+    card: https://glob.ai/.well-known/mcp/server-card.json
+    transport: stdio
+    endpoint: null
+    tools: 33
+    gated: true
+    gate: MCP_TOKEN minted by a signed-in human in the Glob.AI console; no self-service issuance.
+  orchestrator_rest:
+    base: https://api.beta.glob.ai
+    openapi: null
+    note: >-
+      The API the MCP tools actually call. /api/v1/health returns 200; /api/v1/projects returns 401
+      "Authentication required"; /openapi.json, /docs, /redoc and /swagger.json all return 404, so the
+      FastAPI schema routes are disabled. No operationIds exist to bind to.
+  graphql:
+    endpoint: null
+    note: No GraphQL surface found on any Globant host.
+crosswalk: []
+crosswalk_note: >-
+  Empty by evidence, not by omission. Binding an MCP tool to a REST operationId requires a published
+  contract for the backing API; api.beta.glob.ai publishes none, so every binding would be invented.
+mcp_only:
+  - {tool: list_projects, reason: Orchestrator API has no published OpenAPI; no public REST operationId exists to bind to.}
+  - {tool: get_project, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_goals, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_goal, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_goal_status, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_goal_plans, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_plan, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_plan_work_items, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: start_run, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_work_item, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_work_item_status, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_run, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_run_status, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_run_status, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: create_artifact, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_run_artifacts, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_artifact, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_artifact_status, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_artifact, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_project_aipods, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: register_run_agent, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_run_agents, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_run_agent, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: create_external_plan, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: create_job, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_job, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_plan_content, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: update_plan_content, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_artifact_content, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: list_inbox_items, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_inbox_item, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: mark_inbox_item_read, reason: Orchestrator API has no published OpenAPI.}
+  - {tool: get_inbox_unread_count, reason: Orchestrator API has no published OpenAPI.}
+rest_only:
+  - operationId: getCatalog
+    method: GET
+    path: /api/catalog
+    reason: >-
+      Public AI Pods catalog on the marketing origin. Not exposed as an MCP tool, but the provider does
+      cover it with a published agent skill (globai-catalog), which is the same capability delivered
+      through the Agent Skills channel instead of MCP.
+  - operationId: getHealth
+    method: GET
+    path: /api/v1/health
+    reason: Health probe; no MCP tool equivalent.
+coverage:
+  mcp_tools: 33
+  rest_operations: 2
+  bound: 0
+  mcp_only: 33
+  rest_only: 2
+  binding_rate: 0.0
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,150 @@
+generated: '2026-09-14'
+method: searched
+source: https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference, https://docs.globant.ai/en/wiki?23,Error+Codes, https://glob.ai/auth.md, https://glob.ai/docs/api.md
+provider: Globant
+providerId: globant
+description: >-
+  Cross-cutting runtime semantics across Globant's three API surfaces. The Globant Enterprise AI
+  (Glob.AI OS) API is the only one with a substantial mutating surface, and its conventions are read
+  from the documented endpoint tables rather than from a spec — Globant publishes no OpenAPI for it.
+surfaces:
+  - {name: 'Glob.AI public API', host: 'https://glob.ai', mutating: false}
+  - {name: 'Glob.AI Hubs Orchestrator', host: 'https://api.beta.glob.ai', mutating: true, contract: none}
+  - {name: 'Globant Enterprise AI (Glob.AI OS)', host: 'https://api.saia.ai', mutating: true, contract: none}
+authentication:
+  style: 'HTTP Bearer token (GEAI), browser SSO session (glob.ai), MCP_TOKEN environment variable (orchestrator stdio server)'
+  header: 'Authorization: Bearer $GEAI_APITOKEN'
+  organization_scope: 'Authorization: Bearer $GEAI_ORGANIZATION_APITOKEN for organization-level endpoints'
+  see: ../authentication/globant-authentication.yml
+versioning:
+  style: 'URI path prefix, mixed with unversioned paths'
+  observed: ['(unversioned, e.g. /agents, /tools)', /v1, /v2, /v3, /v4]
+  note: >-
+    Several resources expose more than one generation concurrently — GET /agents alongside
+    GET /v4/agents/{idOrName}/versions, DELETE /v3/tool-plugins/{IdOrName} alongside
+    PUT /v2/user-interactions/tool-plugins/{IdOrName}. The docs do not state which generation is
+    canonical, and there is no version negotiation header.
+  platform_release: 'Separately, the platform itself is versioned YYYY-MM with a one-year support window; see ../lifecycle/globant-lifecycle.yml.'
+error_envelope:
+  style: proprietary
+  shape: '{"errors": {"id": <numeric>, "description": "<text>"}}'
+  problem_json: false
+  see: ../errors/globant-error-codes.yml
+  orchestrator: '{"detail":"<message>"} (FastAPI default)'
+caching:
+  request_header: 'X-Saia-Cache-Enabled'
+  values: ['true', 'false']
+  expiration: '7 days'
+  source: 'https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference'
+  note: >-
+    A documented, client-controllable response cache is unusual and useful to an agent. The header name
+    retains the platform's original SAIA branding.
+  public_api: 'https://glob.ai/api/catalog is server-side cached; the provider''s own agent skill states to expect up to ~10 minutes of staleness.'
+pagination:
+  documented: false
+  note: >-
+    No pagination style, cursor, page/limit parameter or link header is documented for any Globant
+    surface. List endpoints (GET /agents, GET /tools, GET /v1/corpus, GET /organization/projects,
+    GET /sessions/) are described without paging parameters. Recorded as a genuine gap.
+filtering:
+  documented: true
+  note: 'RAG document retrieval documents filter operators, multivalued filter operators and an IsMatch operator (https://docs.globant.ai/en/wiki?179,Filter+Operators). These are query-body semantics, not URL query conventions.'
+request_id_tracing:
+  documented: false
+  note: No request-id or correlation header is documented on any surface.
+rate_limit_signaling:
+  headers: []
+  documented: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After header is documented. Exhaustion surfaces only as
+    numeric error codes (151 Provider Rate Limit, 152 Provider Quota Exceeded, 154 Quota exceeded, and
+    the 3200-3206 usage-limit class). See ../rate-limits/globant-rate-limits.yml.
+idempotency:
+  coverage: partial
+  mechanism: 'Resource-level upsert operations (PUT ... /upsert). There is no Idempotency-Key request header anywhere in the documented surface.'
+  header: null
+  retention: null
+  scope:
+    - 'PUT /agents/{idOrName}/upsert'
+    - 'PUT /tools/{idOrName}/upsert'
+    - 'PUT /v1/corpus/{CorpusId}/resource'
+    - 'PUT /v1/corpus/{CorpusId}/resources'
+    - 'PUT /agents/{idOrName}/versions/{versionNumber}'
+    - 'PUT /tools/{idOrName}'
+    - 'PUT /organization/project/{id}'
+    - 'PUT /projects/tokens/{ApiTokenId}'
+    - 'PUT /v2/projects/models/applyChanges'
+    - 'PUT /usageLimits/organizations/{organization}/limits/{id}/hardLimit'
+    - 'PUT /usageLimits/organizations/{organization}/limits/{id}/softLimit'
+  note: >-
+    partial, not full. Replay safety here is a property of the PUT/upsert verbs on specific named
+    resources, not a mechanism spanning the mutating surface. Every POST in the documented tables —
+    POST /agents/{idOrName}/publish-revision, POST /v2/agents/import, POST /tools,
+    POST /v1/corpus/{CorpusId}/resource, POST /v3/tool-plugins/import, POST /projects/tokens,
+    POST /admin/organizations, POST /usageLimits/.../limits — has no documented replay protection, and
+    an agent that retries one after a timeout has no way to know whether the first call landed.
+    api.beta.glob.ai's start_run / create_job / create_artifact MCP tools have no documented
+    idempotency either.
+reversibility:
+  grade: documented
+  note: >-
+    Real reversal paths exist and are documented on the Globant Enterprise AI agent/version surface, but
+    NO time window is stated for any of them, so this grades `documented` rather than `verified`. Do not
+    infer a window; the docs state none.
+  operations:
+    - action: 'Publish an agent revision'
+      forward: 'POST /agents/{idOrName}/publish-revision'
+      reversal: 'POST /v4/agents/{idOrName}/revert'
+      window: null
+      window_source: null
+      note: 'Drafts are addressable (GET /v4/agents/{idOrName}/drafts, DELETE /v4/agents/{idOrName}/drafts/{revision}) and versions are enumerable (GET /v4/agents/{idOrName}/versions), so a revert target is discoverable.'
+    - action: 'Retire an agent version'
+      forward: 'POST /v4/agents/{idOrName}/versions/{versionNumber}/deprecate'
+      reversal: 'POST /v4/agents/{idOrName}/revert'
+      window: null
+      window_source: null
+      note: 'Deprecation is a soft state change rather than a delete; the docs do not state whether it can be undeprecated directly.'
+    - action: 'Delete an agent'
+      forward: 'DELETE /agents/{idOrName}'
+      reversal: null
+      window: null
+      note: 'No restore, undelete or trash endpoint is documented. Treat as irreversible.'
+    - action: 'Delete a tool / corpus / corpus resource / project / organization / API token'
+      forward: 'DELETE /tools/{idOrName}, DELETE /v1/corpus/{CorpusId}, DELETE /v1/corpus/{CorpusId}/resource/{ResourceId}, DELETE /organization/project/{id}, DELETE /admin/organizations/{OrganizationId}, DELETE /projects/tokens/{ApiTokenId}'
+      reversal: null
+      window: null
+      note: 'No documented reversal for any of these. This is the sharpest agent-safety gap on the surface.'
+    - action: 'Start a plan run (orchestrator MCP)'
+      forward: 'start_run'
+      reversal: 'update_run_status'
+      window: null
+      note: 'Run status can be updated, which is a state correction rather than a guaranteed cancel-and-unwind. The MCP card publishes no cancel or abort tool.'
+    - action: 'CODA CLI code edits'
+      forward: 'coda -p "<prompt>" / interactive session'
+      reversal: '/timeline checkpoint history'
+      window: null
+      window_source: 'https://docs.globant.ai/g-coda'
+      note: 'Local-agent undo, not an API reversal. Included because it is the one place Globant documents an explicit undo affordance.'
+dry_run_mode:
+  supported: partial
+  note: >-
+    Not a general dry-run. Two narrow rehearsal affordances are documented: `geai migrate clone-project
+    diff` previews a project clone before applying it, and agents/tools can be loaded as unpublished
+    drafts (`--automatic-publish 0`) and published as a separate step. No request-level dry-run
+    parameter or header exists.
+expansion_and_sparse_fields:
+  documented: false
+metadata:
+  documented: true
+  note: 'RAG documents carry user-defined metadata (https://docs.globant.ai/en/wiki?1394,RAG+Document+Metadata).'
+agent_notes:
+  - >-
+    glob.ai publishes an auth.md that enumerates what does NOT exist specifically so agents stop probing
+    for it. That is a convention worth naming: a negative-space contract.
+  - >-
+    The public glob.ai surface is read-only and anonymous; everything mutating on any Globant surface
+    requires a human-provisioned credential. reversibility, idempotency and dry_run are therefore all
+    assessed against the documented GEAI/orchestrator surfaces, not the public one.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

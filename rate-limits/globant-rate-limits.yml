@@ -3,31 +3,97 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
 provider: Globant
 providerId: globant
+generated: '2026-09-14'
+method: searched
+source: 'https://docs.globant.ai/en/wiki?802,Usage+Limits+API, https://docs.globant.ai/en/wiki?23,Error+Codes, https://glob.ai/docs/api.md'
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-14'
+reconciled: true
+supersedes: >-
+  The 2026-05-04 bulk-sweep artifact, which said Globant publishes no public API and no rate-limit
+  policy. Globant Enterprise AI does publish a usage-limit surface — it is just a customer-configured
+  budget API rather than a platform throttle.
 tags:
   - Rate Limiting
-  - Consulting
+  - Artificial Intelligence
   - Software
-description: Globant does not publish a public API or rate-limit policy. Any APIs delivered to clients
-  exist within a custom engagement and are governed by that contract.
-notes: No public API surface to reconcile against.
-sources:
-  - https://www.globant.com/
+description: >-
+  Globant publishes NO numeric rate limits and NO rate-limit response headers on any surface. What it
+  publishes instead is the inverse: a full Usage Limits API that lets a CUSTOMER set their own hard and
+  soft ceilings, by cost or by request count, at organization or project scope. An agent integrating
+  here cannot discover what it is allowed to do — it can only be told after the fact, through a numeric
+  error code, that a ceiling somebody else configured has been hit.
+limit_count: 0
+limits: []
+limits_note: >-
+  Zero published limits. Not an omission — the Usage Limits API reference, the API reference index and
+  the public API docs were all read, and none states a requests-per-second, per-minute, per-day or
+  burst figure for any endpoint.
+response_headers:
+  published: []
+  checked:
+    - X-RateLimit-Limit
+    - X-RateLimit-Remaining
+    - X-RateLimit-Reset
+    - RateLimit
+    - RateLimit-Policy
+    - Retry-After
+  note: >-
+    None of these are documented anywhere in the Globant Enterprise AI or Glob.AI documentation, and
+    none was observed on the unauthenticated responses probed (https://glob.ai/api/catalog,
+    https://glob.ai/api/v1/health, https://api.beta.glob.ai/api/v1/health, https://api.saia.ai/).
+    RFC 9457 is not in use either, so there is no problem+json retry hint. An agent's only retry signal
+    is the numeric error code in the body.
 responseCodes:
-  throttled: 429
-limits:
-  - name: Engagement-defined limit
-    scope: contract
-    metric: varies
-    limit: see engagement contract
+  throttled: null
+  throttled_note: >-
+    No 429 is documented. Rate-limit and quota conditions surface as numeric codes inside the
+    proprietary {"errors":{"id":n,"description":"..."}} envelope; the docs do not state which HTTP
+    status accompanies them.
+exhaustion_signals:
+  - {code: 151, message: Provider Rate Limit, meaning: 'The upstream model provider throttled the call.'}
+  - {code: 152, message: Provider Quota Exceeded, meaning: 'The upstream model provider quota is spent.'}
+  - {code: 153, message: Provider Overcapacity, meaning: 'The upstream model provider is at capacity.'}
+  - {code: 154, message: Quota exceeded, meaning: 'A Glob.AI OS usage limit configured for this organization or project has been reached.'}
+  - {range: '3200-3206', meaning: 'Usage-limit error class.'}
+  - {range: '4000-4046', meaning: 'Permission and quota error class.'}
+exhaustion_signals_source: 'https://docs.globant.ai/en/wiki?23,Error+Codes'
+customer_configured_limits:
+  api: Usage Limits API
+  docs: 'https://docs.globant.ai/en/wiki?802,Usage+Limits+API'
+  description: >-
+    Customers define their own consumption ceilings. Each limit carries a soft threshold (alerting) and
+    a hard threshold (enforcement), a subscription cadence and a renewal mode.
+  scopes:
+    - {scope: organization, metrics: [Cost]}
+    - {scope: project, metrics: [Requests, Cost]}
+  subscription_types: [Freemium, Daily, Weekly, Monthly]
+  renewal: [Renewable, NonRenewable]
+  operations:
+    - 'POST /usageLimits/organizations/{organization}/limits'
+    - 'GET /usageLimits/organizations/{organization}/limits'
+    - 'GET /usageLimits/organizations/{organization}/limits/active'
+    - 'GET /usageLimits/organizations/{organization}/limits/latest'
+    - 'DELETE /usageLimits/organizations/{organization}/limits/{id}'
+    - 'PUT /usageLimits/organizations/{organization}/limits/{id}/hardLimit'
+    - 'PUT /usageLimits/organizations/{organization}/limits/{id}/softLimit'
+    - 'PUT /usageLimits/organizations/{organization}/limits/{id}/renewalStatus'
+    - 'POST /usageLimits/organizations/{organization}/projects/{project}/limits'
+    - 'GET /usageLimits/organizations/{organization}/projects/{project}/limits'
+    - 'GET /usageLimits/organizations/{organization}/projects/{project}/limits/active'
+    - 'GET /usageLimits/organizations/{organization}/projects/{project}/limits/latest'
+    - 'DELETE /usageLimits/organizations/{organization}/projects/{project}/limits/{id}'
+    - 'PUT /usageLimits/organizations/{organization}/projects/{project}/limits/{id}/hardLimit'
+    - 'PUT /usageLimits/organizations/{organization}/projects/{project}/limits/{id}/softLimit'
+    - 'PUT /usageLimits/organizations/{organization}/projects/{project}/limits/{id}/renewalStatus'
+  auth: 'Organization-scoped endpoints require $GEAI_ORGANIZATION_APITOKEN.'
 policies:
-  - name: Bilateral terms
-    description: API and rate-limit terms are negotiated as part of the professional-services agreement.
+  - name: Customer-set ceilings
+    description: Consumption ceilings are configured by the customer through the Usage Limits API rather than imposed and published by Globant.
+  - name: Upstream provider limits pass through
+    description: Model-provider throttling is surfaced verbatim as codes 151-153 rather than absorbed by the platform.
+  - name: Contract-governed
+    description: Commercial consumption terms live in the subscription agreement, not on a public page.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

@@ -1,0 +1,112 @@
+generated: '2026-09-14'
+method: searched
+source: https://glob.ai/auth.md, https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference, https://docs.globant.ai/en/wiki?3895,PyGEAI+API+Authentication
+provider: Globant
+providerId: globant
+description: >-
+  Globant runs three authentication models across three separate surfaces, and one of them is unusually
+  well documented for agents: glob.ai publishes an auth.md that states in plain language what exists,
+  what is gated, and — explicitly, so agents stop probing — what does NOT exist.
+surfaces:
+  - surface: Glob.AI public API
+    host: glob.ai
+    spec: ../openapi/globant-glob-ai-public-api-openapi.json
+    docs: https://glob.ai/auth.md
+    schemes:
+      - type: none
+        applies_to:
+          - GET /api/catalog
+          - GET /api/v1/health
+          - /.well-known/api-catalog
+          - /openapi.json
+          - /docs/api.md
+          - /.well-known/agent-skills/index.json
+          - /llms.txt
+          - /llms-full.txt
+        note: The OpenAPI declares no securitySchemes and no security requirement; the surface is genuinely anonymous.
+      - type: session
+        applies_to: ['everything else on the glob.ai origin']
+        mechanism: Browser session via Globant Access Management (GAM) single sign-on
+        self_service: false
+    declared_absences:
+      - 'No password grant'
+      - 'No client-credentials flow'
+      - 'No API-key self-service'
+      - 'No self-service or anonymous agent registration — programmatic access is provisioned by authenticated users from inside the platform'
+      - 'No OAuth/OIDC discovery metadata: this origin is not an OAuth issuer (/.well-known/openid-configuration, /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource are not served)'
+      - 'No agent-autonomous payments; checkout requires human card entry'
+    access_path: 'https://glob.ai — reviewed request, human-in-the-loop provisioning'
+  - surface: Glob.AI Hubs Orchestrator (MCP)
+    host: api.beta.glob.ai
+    docs: https://glob.ai/.well-known/agent-skills/orchestrator-mcp-setup/SKILL.md
+    schemes:
+      - type: apiKey
+        name: MCP_TOKEN
+        in: env
+        mechanism: Token passed to the local stdio MCP server as an environment variable
+        issuance: 'Minted by a signed-in human in the Glob.AI console (https://aipods.glob.ai) from a project runner setup'
+        self_service: false
+    observed:
+      - {url: 'https://api.beta.glob.ai/api/v1/projects', status: 401, body: '{"detail":"Authentication required"}'}
+      - {url: 'https://api.beta.glob.ai/api/v1/health', status: 200, body: '{"status":"ok","version":"0.1.0"}'}
+  - surface: Globant Enterprise AI (Glob.AI OS)
+    host: api.saia.ai
+    docs: https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference
+    schemes:
+      - type: http
+        scheme: bearer
+        variable: GEAI_APITOKEN
+        scope: project
+        mechanism: 'HTTP Bearer token; a per-project API token'
+      - type: http
+        scheme: bearer
+        variable: GEAI_ORGANIZATION_APITOKEN
+        scope: organization
+        mechanism: 'HTTP Bearer token; required for organization-level endpoints (admin/organizations, usageLimits/organizations/*)'
+      - type: oauth2
+        variable: OAuth_accesstoken
+        mechanism: 'Temporary OAuth access tokens offered for enhanced security'
+        note: >-
+          The docs reference OAuth access tokens but publish no authorization/token endpoint, no scope
+          reference and no discovery document. No scopes/ artifact was written for this reason — see
+          notes.
+    token_management:
+      docs: https://docs.globant.ai/en/wiki?564,API+Tokens
+      operations:
+        - 'POST /projects/tokens'
+        - 'GET /organization/project/{id}/tokens'
+        - 'GET /projects/tokens/{ApiTokenId}'
+        - 'PUT /projects/tokens/{ApiTokenId}'
+        - 'DELETE /projects/tokens/{ApiTokenId}'
+        - 'GET /accessControl/apitoken/validate'
+    related_errors:
+      - {code: 5, message: Api Key Not Found}
+      - {code: 6, message: ApiToken not found or blocked}
+      - {code: 7, message: ApiToken out of scope}
+      - {code: 101, message: Refresh token error}
+      - {code: 102, message: Token revoked, login again}
+      - {code: 103, message: Token expired, login again}
+      - {code: 112, message: Access token not found, login again}
+      - {code: 114, message: Access token not valid, login again}
+      - {code: 122, message: Session token error, login again}
+  - surface: Legacy Globant gateway
+    host: api.globant.com
+    docs: null
+    schemes:
+      - type: unknown
+        mechanism: 'Unknown. Every path, including / and /.well-known/*, returns HTTP 401 {"status":"Error","description":" Authentication Error"}.'
+    note: >-
+      No public documentation for this host was found anywhere. It is a live, wholly gated gateway with
+      no discoverable contract.
+notes:
+  - >-
+    No scopes/globant-scopes.yml was written. glob.ai/auth.md states the origin is not an OAuth issuer,
+    the GEAI docs name OAuth access tokens without publishing a scope reference, and no OpenAPI with
+    oauth2 securitySchemes exists to derive a baseline from. An invented scope list would be fabrication.
+  - >-
+    RBAC inside Globant Enterprise AI is documented separately at
+    https://docs.globant.ai/en/wiki?242,Managing+Roles+and+Permissions+in+Glob.AI+OS and is a
+    platform-internal permission model, not an API scope surface.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

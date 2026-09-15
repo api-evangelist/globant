@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "globai-catalog",
+      "type": "skill-md",
+      "description": "Query the public Glob.AI AI Pods catalog — groups, offerings, capabilities, and per-token pricing — via an unauthenticated JSON endpoint.",
+      "url": "https://glob.ai/.well-known/agent-skills/globai-catalog/SKILL.md",
+      "digest": "sha256:67a36db70ee232d5a4de955def90a7fd17a37189b9f69dff4d9752e3e00fa8fd"
+    },
+    {
+      "name": "orchestrator-mcp-setup",
+      "type": "skill-md",
+      "description": "Install and run the Glob.AI orchestrator MCP server (stdio) with an MCP_TOKEN minted in the console, to work with projects, goals, plans, runs, and artifacts.",
+      "url": "https://glob.ai/.well-known/agent-skills/orchestrator-mcp-setup/SKILL.md",
+      "digest": "sha256:82f2a25532db1145a03177372b4427a9a5cc57f9fcf9eb28436019bef17244ca"
+    }
+  ]
+}

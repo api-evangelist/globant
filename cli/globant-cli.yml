@@ -1,0 +1,81 @@
+generated: '2026-09-14'
+method: searched
+source: https://docs.globant.ai/g-coda, https://docs.globant.ai/en/wiki?1522,The+geai+spec+command+-+geai-cli
+provider: Globant
+providerId: globant
+description: >-
+  Globant ships two first-party command-line tools: CODA, an agentic coding assistant distributed as a
+  native binary through npm, and geai, the Globant Enterprise AI (Glob.AI OS) CLI that ships inside the
+  PyGEAI Python SDK.
+clis:
+  - name: coda
+    official: true
+    docs: https://docs.globant.ai/g-coda
+    marketing: https://www.globant.com/coda
+    package: '@globant/coda'
+    version: 1.4.0
+    published: '2026-09-04'
+    install:
+      - method: npm
+        command: npm i -g @globant/coda
+      - method: script
+        platform: macOS/Linux
+        command: "curl -fsSL 'https://docs.globant.ai/en/filedownload?4622,13' | bash"
+      - method: script
+        platform: Windows PowerShell 7
+        command: "irm 'https://docs.globant.ai/en/filedownload?5346,8' | iex"
+    commands:
+      - {command: coda, description: Launch the interactive terminal UI}
+      - {command: 'coda -p "<prompt>"', description: Headless / batch mode}
+      - {command: coda --acp, description: Agent Client Protocol mode for editor integration}
+      - {command: coda upgrade, description: Update to the latest version}
+      - {command: coda --reconfigure, description: Reset the provider connection}
+      - {command: coda logs, description: View structured logs with filtering}
+      - {command: coda logs export, description: Create a redacted log bundle for support}
+    slash_commands:
+      - {command: /providers, description: Manage provider profiles}
+      - {command: /switch-profile, description: Change the active provider}
+      - {command: /project, description: Switch Glob.AI OS project}
+      - {command: /settings, description: Adjust autonomy, theme, compaction}
+      - {command: /timeline, description: Checkpoint history for undo}
+      - {command: /sessions, description: Manage multiple conversations}
+      - {command: /compact, description: Condense conversation history}
+      - {command: /init, description: Generate a project AGENTS.md}
+      - {command: /init-rules, description: Bootstrap permission rules}
+      - {command: /skills, description: Manage custom workflows}
+      - {command: /plan, description: Create an implementation strategy}
+    integrations:
+      - {name: Zed, via: Agent Client Protocol, config: agent_servers}
+      - {name: JetBrains IDEs, via: Agent Client Protocol, config: '~/.jetbrains/acp.json'}
+    extensibility:
+      mcp_config: '~/.coda/mcp.json (global) or <project>/.coda/mcp.json'
+      skills: '<project>/.coda/skills/'
+      hooks: 'TypeScript handlers for PreToolUse and other events'
+      agents: 'AGENTS.md files'
+    note: CODA is an MCP client. It consumes MCP servers; it does not expose one.
+  - name: geai
+    official: true
+    docs: https://docs.globant.ai/en/wiki?1522,The+geai+spec+command+-+geai-cli
+    package: pygeai
+    version: 0.8.0
+    published: '2026-08-06'
+    install:
+      - method: pip
+        command: pip install pygeai
+    commands:
+      - {command: 'geai spec load-agent (la)', description: Load Agent(s) into The Lab from a JSON specification file}
+      - {command: 'geai spec load-tool (lt)', description: Load Tool(s) from JSON}
+      - {command: 'geai spec load-agentic-process (lap)', description: Load Agentic Process(es) from JSON}
+      - {command: 'geai spec load-task (ltask)', description: Load Task(s) from JSON}
+      - {command: 'geai spec help (h)', description: Display help text}
+      - {command: geai migrate clone-project, description: Clone a Glob.AI OS project between environments}
+      - {command: geai migrate clone-project diff, description: Diff a project clone before applying}
+    examples:
+      - "geai spec load-agent --project-id 123e4567-e89b-12d3-a456-426614174000 --file agent.json --automatic-publish 0"
+      - "geai spec load-tool --pid 987fcdeb-1a2b-3c4d-5e6f-7890abcd1234 -f tool.json --ap 1"
+    note: >-
+      `geai spec` loads local JSON component definitions into the platform. It does NOT generate or
+      download an OpenAPI/Swagger description, despite the command name.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

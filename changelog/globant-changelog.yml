@@ -1,0 +1,41 @@
+generated: '2026-09-14'
+method: searched
+source: https://docs.globant.ai/en/wiki?31,Glob.AI+OS+Releases+Notes
+provider: Globant
+providerId: globant
+description: >-
+  Globant Enterprise AI (Glob.AI OS) publishes dated release notes on its documentation wiki, archived
+  by year back to 2023. Releases are named by calendar month rather than semver, and each release name
+  is also the unit the one-year support window is measured against.
+scheme: 'Calendar release, YYYY-MM'
+current_version: '2026-06'
+current_version_date: '2026-08-19'
+url: 'https://docs.globant.ai/en/wiki?31,Glob.AI+OS+Releases+Notes'
+feed: null
+feed_note: No RSS/Atom feed or machine-readable changelog is offered; the notes are wiki pages.
+entries:
+  - {version: '2026-06', date: '2026-08-19', url: 'https://docs.globant.ai/en/wiki?6323', breaking: unknown, highlights: 'Current release at the time of this pass.'}
+  - {version: '2026-05', date: null, breaking: unknown}
+  - {version: '2026-04', date: null, breaking: unknown}
+  - {version: '2026-03', date: null, breaking: unknown}
+archives:
+  - {year: 2025, url: 'https://docs.globant.ai/en/wiki?2150,Globant+Enterprise+AI+Release+Notes+-+2025'}
+  - {year: 2024, url: 'https://docs.globant.ai/en/wiki?2149,Globant+Enterprise+AI+Release+Notes+-+2024'}
+  - {year: 2023, url: 'https://docs.globant.ai/en/wiki?2148,Globant+Enterprise+AI+Release+Notes+-+2023'}
+related:
+  - {name: 'Glob.AI OS Components Versions', url: 'https://docs.globant.ai/en/wiki?822,Glob.AI+OS+Components+Versions'}
+  - {name: 'Glob.AI OS Lifecycle (support termination dates)', url: 'https://docs.globant.ai/en/wiki?3154,Glob.AI+OS+Lifecycle'}
+other_version_signals:
+  - {surface: 'Glob.AI public API', signal: 'GET /api/catalog returns a top-level "version" field; observed 1.20.0 on 2026-09-14.'}
+  - {surface: 'Glob.AI public API', signal: 'GET /api/v1/health returns {"status":"ok","version":"0.1.0"}.'}
+  - {surface: 'Globant Enterprise AI', signal: 'GET https://api.saia.ai/ returns {"running":true,"timestamp":...,"version":"1.1.7601-qa-18.14-904"}.'}
+  - {surface: CODA CLI, signal: '@globant/coda 1.4.0 published 2026-09-04; no public changelog page found.'}
+  - {surface: PyGEAI SDK, signal: 'pygeai 0.8.0 published 2026-08-06; 199 releases on PyPI since 0.1.10.'}
+notes:
+  - >-
+    Entry dates beyond the current release were not transcribed because the release-notes index page
+    links each version to its own page without exposing the dates in the index. Recording null is
+    honest; guessing month-ends would not be.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

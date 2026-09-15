@@ -1,0 +1,124 @@
+generated: '2026-09-14'
+method: searched
+source: registry.npmjs.org, pypi.org/pypi/*/json, https://docs.globant.ai, https://glob.ai/docs/api.md
+provider: Globant
+providerId: globant
+description: >-
+  First-party Globant client libraries and distributed binaries, read from the registries' own metadata
+  endpoints. Two live first-party lines exist: the PyGEAI Python SDK for Globant Enterprise AI
+  (Glob.AI OS) on PyPI, and the CODA agentic coding CLI on npm under the @globant scope. The legacy
+  @globant/nodeschool packages are 2019 workshop tooling, kept here as decay evidence rather than as a
+  current SDK.
+ownership_note: >-
+  The @globant npm scope and the pygeai PyPI package (author email geai-sdk@globant.com) are both
+  first-party. Globant Enterprise AI originated as GeneXus' SAIA platform; Globant acquired GeneXus
+  (announced 2022) and GeneXus Enterprise AI was renamed Globant Enterprise AI in October 2024, which is
+  why the SDK's API host is api.saia.ai and the ingestion SDK lives in the genexuslabs GitHub org.
+packages:
+  - name: pygeai
+    official: true
+    registry: pypi
+    language: python
+    url: https://pypi.org/project/pygeai/
+    version: 0.8.0
+    published: '2026-08-06'
+    releases: 199
+    first_release: 0.1.10
+    author_email: geai-sdk@globant.com
+    summary: Software Development Kit to interact with GlobAI OS.
+    install: pip install pygeai
+    docs: https://docs.globant.ai/en/wiki?1148,Python+SDK+-+PyGEAI
+    covers:
+      - Chat API
+      - Embeddings API
+      - Organization API
+      - RAG Assistants API
+      - Analytics API
+      - The Lab (Agents, Tools, Tasks, Agentic Processes)
+    note: >-
+      Also ships the geai CLI entry point (geai spec / geai migrate) — see cli/globant-cli.yml. Version
+      and date read from pypi.org/pypi/pygeai/json.
+  - name: '@globant/coda'
+    official: true
+    registry: npm
+    language: javascript
+    url: https://www.npmjs.com/package/@globant/coda
+    version: 1.4.0
+    published: '2026-09-04'
+    summary: Coda CLI — agentic coding assistant (native binary launcher)
+    install: npm i -g @globant/coda
+    docs: https://docs.globant.ai/g-coda
+    repository: https://github.com/5G-AGE009-HZ/g-coda
+    repository_note: >-
+      The npm manifest points at github.com/5G-AGE009-HZ/g-coda, which is not a Globant-branded org and
+      does not resolve for an anonymous fetch. The product itself is first-party — it is published under
+      the Globant-controlled @globant npm scope and documented at docs.globant.ai/g-coda and
+      globant.com/coda.
+    note: >-
+      Launcher package; the actual binaries ship as per-platform optional dependencies, all at 1.4.0 /
+      2026-09-04 (darwin-arm64, darwin-x64, darwin-x64-baseline, linux-arm64, linux-arm64-musl,
+      linux-x64, linux-x64-musl, linux-x64-baseline, linux-x64-baseline-musl, windows-arm64,
+      windows-x64, windows-x64-baseline).
+  - name: '@globant/coda-darwin-arm64'
+    official: true
+    registry: npm
+    language: binary
+    url: https://www.npmjs.com/package/@globant/coda-darwin-arm64
+    version: 1.4.0
+    published: '2026-09-04'
+    summary: Coda CLI native binary (darwin-arm64)
+    note: One of twelve per-platform binary packages; representative entry, all published in lockstep with the launcher.
+  - name: saia-ingest
+    official: true
+    registry: github
+    language: python
+    url: https://github.com/genexuslabs/saia-ingest
+    version: null
+    published: null
+    note: >-
+      The Globant Enterprise AI Ingestion SDK page (https://docs.globant.ai/en/wiki?172,Ingestion+SDK)
+      links this repository, but github.com/genexuslabs/saia-ingest returned 404 unauthenticated on
+      2026-09-14 and no matching PyPI project exists. version/published are null because the artifact
+      could not be located, not because they were not checked — a dead link in the provider's own docs.
+  - name: '@globant/create-nodeschool'
+    official: true
+    registry: npm
+    language: javascript
+    url: https://www.npmjs.com/package/@globant/create-nodeschool
+    version: 1.2.0
+    published: '2019-03-25'
+    summary: CLI app for install all nodeschool workshops choose by Globant
+    note: Legacy community-workshop tooling, unmaintained since 2019. Not an API client.
+  - name: '@globant/nodeschool-helper'
+    official: true
+    registry: npm
+    language: javascript
+    url: https://www.npmjs.com/package/@globant/nodeschool-helper
+    version: 1.0.2
+    published: '2019-03-25'
+    summary: CLI helper for the Globant Nodeschool workshops
+    note: Legacy community-workshop tooling, unmaintained since 2019. Not an API client.
+not_first_party:
+  - name: geai
+    registry: pypi
+    reason: >-
+      Name collision. pypi.org/project/geai (0.1.8, 2024-01-20) is authored by lyuan@gd.edu.kg and is
+      unrelated to Globant Enterprise AI. Excluded deliberately.
+  - name: aem-mcp-server-globant
+    registry: npm
+    reason: Third-party Adobe Experience Manager MCP server that carries "globant" in its name; not published under the @globant scope.
+  - name: '@simpleview/cms-globant-components'
+    registry: npm
+    reason: Published by Simpleview, not Globant.
+registries_checked:
+  - {registry: npm, result: hit}
+  - {registry: pypi, result: hit}
+  - {registry: maven, result: none}
+  - {registry: nuget, result: none}
+  - {registry: rubygems, result: none}
+  - {registry: packagist, result: none}
+  - {registry: crates.io, result: none}
+  - {registry: pkg.go.dev, result: none}
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

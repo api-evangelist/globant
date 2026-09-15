@@ -1,0 +1,97 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for the Glob.AI public API
+  version: 1.0.0
+x-provenance:
+  generated: '2026-09-14'
+  method: generated
+  source: openapi/globant-glob-ai-public-api-openapi.json
+  note: >-
+    Non-destructive enhancements over the provider's own OpenAPI, fetched verbatim from
+    https://glob.ai/openapi.json on 2026-09-14. The original is never mutated. Every action below adds
+    catalog metadata or cross-links to artifacts in this repository; none changes the described
+    behaviour of the API.
+extends: ../openapi/globant-glob-ai-public-api-openapi.json
+actions:
+  - target: $.info
+    description: Record the operator, the legal and discovery surfaces the provider publishes elsewhere, and the API Evangelist profile.
+    update:
+      contact:
+        name: Globant
+        url: https://glob.ai
+      termsOfService: https://glob.ai/en/legal
+      x-privacy-policy: https://glob.ai/en/legal#privacy
+      x-provider-id: globant
+      x-api-evangelist-profile: https://apis.io/provider/globant
+      x-discovery:
+        api_catalog: https://glob.ai/.well-known/api-catalog
+        llms_txt: https://glob.ai/llms.txt
+        llms_full_txt: https://glob.ai/llms-full.txt
+        agent_skills: https://glob.ai/.well-known/agent-skills/index.json
+        mcp_server_card: https://glob.ai/.well-known/mcp/server-card.json
+        auth_guide: https://glob.ai/auth.md
+        human_docs: https://glob.ai/docs/api.md
+  - target: $.servers[0]
+    description: Name the origin so a reader can tell the public marketing origin from the gated orchestrator API.
+    update:
+      description: >-
+        The Glob.AI public origin. Only the two operations in this description are anonymous; every other
+        path on this host requires a browser SSO session. The gated Hubs Orchestrator API lives on a
+        different host (https://api.beta.glob.ai) and publishes no OpenAPI.
+  - target: $
+    description: Declare tags so the two operations group, and cross-link the repository artifacts derived alongside this spec.
+    update:
+      tags:
+        - name: Catalog
+          description: The public AI Pods catalog.
+        - name: Platform
+          description: Platform health and status surfaces.
+      x-artifacts:
+        authentication: ../authentication/globant-authentication.yml
+        conventions: ../conventions/globant-conventions.yml
+        conformance: ../conformance/globant-conformance.yml
+        errors: ../errors/globant-error-codes.yml
+        lifecycle: ../lifecycle/globant-lifecycle.yml
+        changelog: ../changelog/globant-changelog.yml
+        packages: ../packages/globant-packages.yml
+        cli: ../cli/globant-cli.yml
+        mcp: ../mcp/globant-mcp.yml
+        tool_crosswalk: ../mcp/globant-tool-crosswalk.yml
+        skills: ../skills/_index.yml
+        well_known: ../well-known/globant-well-known.yml
+        data_model: ../data-model/globant-data-model.yml
+        plans: ../plans/globant-plans-pricing.yml
+        rate_limits: ../rate-limits/globant-rate-limits.yml
+  - target: $.paths['/api/catalog'].get
+    description: Tag the catalog operation, record the observed server-side cache behaviour and point at the provider's own agent skill for this exact call.
+    update:
+      tags:
+        - Catalog
+      x-cache:
+        server_side: true
+        expected_staleness: ~10 minutes
+        source: https://glob.ai/.well-known/agent-skills/globai-catalog/SKILL.md
+      x-agent-skill: https://glob.ai/.well-known/agent-skills/globai-catalog/SKILL.md
+      x-observed:
+        fetched: '2026-09-14'
+        http_status: 200
+        catalog_version: 1.20.0
+        groups: 6
+        offerings: 26
+        price_units_populated: 0
+        note: >-
+          All 26 offerings returned price_unit "" for an anonymous caller, so prices were withheld from
+          this audience at observation time, exactly as the description warns.
+  - target: $.paths['/api/v1/health'].get
+    description: Tag the health operation and record that the RFC 9727 catalog registers it as the status surface.
+    update:
+      tags:
+        - Platform
+      x-registered-as-status: https://glob.ai/.well-known/api-catalog
+      x-observed:
+        fetched: '2026-09-14'
+        http_status: 200
+        body: '{"status":"ok","version":"0.1.0"}'
+        note: >-
+          Answered correctly only when Accept negotiation resolves to JSON; a default browser Accept
+          header returns the Next.js application shell from the same path.

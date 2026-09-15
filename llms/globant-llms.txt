@@ -1,0 +1,73 @@
+# Glob.AI llms.txt
+
+## About
+[Glob.AI](https://glob.ai): Glob.AI is the transformation of the professional services model toward AI-native delivery. It moves away from headcount-based models to focus on "Workflows That Think" and "Intelligent Native Delivery."
+
+## Core Value Proposition
+Glob.AI is not a layer on top of legacy systems; it is a system designed from the ground up to operate at the speed of intelligence. It solves the industry gap where speed improved but value remained stagnant due to traditional delivery bottlenecks.
+
+## The AI Pods Model
+Services are delivered through specialized AI Pods, combining frontier agentic AI with Globant's industry expertise.
+
+- [AI Pod - Software](https://glob.ai): These pods leverage AI-driven workflows to build and evolve technology from the ground up. By generating production-ready code, architecture designs, and data pipelines under the expert supervision of Globant specialists, they deliver tangible working software artifacts. The client maintains full ownership of the technology, while the pod provides the supervised intelligence needed to accelerate development.
+- [AI Pod - Ops](https://glob.ai): Focused on operational efficiency, these pods design, deploy, and manage AI-powered workflows that automate complex business processes from start to finish. They are built to ensure continuous performance maximization through a supervised runtime model, allowing companies to scale their operations with precision and speed without increasing headcount.
+- [AI Pod - Catalyst](https://glob.ai): The Catalyst model provides a pure self-service SaaS infrastructure for organizations that want complete control. It offers the tools and environment necessary to build, deploy, and manage proprietary AI workflows independently. With no external supervision required, it operates on a consumption-based model, offering maximum flexibility and speed for internal teams.
+
+## Technical Architecture: The 4 Hubs
+Glob.AI operates through a security-first architecture divided into four functional hubs.
+- AI Hub: Universal routing and connection to 140+ LLMs with built-in governance.
+- Corporate Hub: Secure integration with all internal corporate systems and data.
+- Agent Hub: Creation and management of specialized agents combining company data with LLM logic.
+- AI Pods Hub: The execution layer for supervised and automated workflows.
+
+## The Token Vault: Institutional Knowledge
+The Token Vault is a secure hub for storing every interaction and decision.
+- Knowledge Compounding: Unlike traditional consulting, where knowledge leaves with the person, Glob.AI encodes institutional knowledge into the platform.
+- Data Sovereignty: Customers maintain full ownership of their proprietary logic and tokens.
+- Continuous Improvement: The system becomes more valuable over time as it learns from the company's specific domain.
+
+## The Engines
+- Value-Based Subscriptions: Payment for outcomes and outputs (supervised tokens), not hours.
+- Agent Marketplace: A repository of open-source and commercial agents (Salesforce, ServiceNow, etc.) optimized through the platform.
+- Infrastructure Pass-Through: Proprietary algorithms for cost-efficient token routing across multiple models.
+
+## Domain Expertise
+Every AI Pod is infused with Globant's deep industry knowledge across sectors, including Financial Services, Healthcare, Media, Retail, Sports, Gaming, Airlines, Automotive, and more.
+
+## Technical Information
+
+### Full Content for Agents
+[Glob.AI llms-full.txt](https://glob.ai/llms-full.txt): Extended, agent-readable markdown version of this site's content.
+
+### API Discovery
+- [API Catalog](https://glob.ai/.well-known/api-catalog): RFC 9727 catalog of the public API surface.
+- [OpenAPI Description](https://glob.ai/openapi.json): Machine-readable description of the public endpoints.
+- [API Documentation](https://glob.ai/docs/api.md): Public API documentation with examples.
+- [Authentication Guide](https://glob.ai/auth.md): How authentication works and what agent access exists.
+- [Agent Skills](https://glob.ai/.well-known/agent-skills/index.json): Published skills for AI agents.
+
+### Sitemap
+[Glob.AI Sitemap](https://glob.ai/sitemap.xml): Includes all crawlable and indexable pages.
+
+### Robots
+[Glob.AI Robots.txt](https://glob.ai/robots.txt): This file defines crawling rules for traditional search engines.
+
+### Social Media
+- [LinkedIn](https://www.linkedin.com/company/globant): Globant LinkedIn Profile
+- [X](https://x.com/globant): Globant X Profile
+- [YouTube](https://www.youtube.com/user/Globant): Globant Youtube Profile
+- [Instagram](https://www.instagram.com/globant/): Globant Instagram Profile
+- [Facebook](https://www.facebook.com/Globant): Globant Facebook Profile
+
+### Frequently Asked Questions
+- [What is Glob.AI and how does it differ from traditional models?](https://glob.ai): Glob.AI is the first AI-native service delivery model. Unlike traditional models that layer AI on top of legacy systems, Glob.AI is designed from the ground up to operate at the speed of intelligence. It changes the cost structure by removing the reliance on headcount and focusing on value-based delivery rather than billable hours.
+- [How does the pricing model work?](https://glob.ai): Glob.AI operates on a value-based subscription model. You do not pay for time or seats. Instead, you pay for outcomes and outputs measured in "supervised tokens" (for Software and Ops Pods) or consumption-based SaaS subscriptions (for the Catalyst platform).
+- [What is the Token Vault and why is it important?](https://glob.ai): The Token Vault is a secure hub where every conversation, decision, and line of code is stored. This allows institutional knowledge to compound over time. Unlike traditional consulting, where knowledge leaves when a consultant departs, Glob.AI ensures that your company's logic and data remain your proprietary asset, ensuring full data sovereignty.
+- [What exactly are "Working Software Artifacts"?](https://glob.ai): In the AI Pod | Software model, these are the tangible deliverables generated by AI workflows under expert supervision. They include production-ready code, technical architectures, design systems, and data pipelines. The client retains full ownership of these technology artifacts.
+- [How many LLMs does the platform support?](https://glob.ai): The AI Hub provides universal routing to over 140 LLMs. The platform uses proprietary optimization algorithms (Infrastructure Pass-Through) to route tokens across these models, minimizing consumption costs and ensuring the best performance for each task.
+- [Does Glob.AI provide industry-specific expertise?](https://glob.ai): Yes. Every AI Pod is infused with the expertise of Globant's specialized Studios, covering industries such as Financial Services, Healthcare, Retail, Media, Sports, Airlines, Energy, and Automotive.
+- [How is security and governance handled?](https://glob.ai): Glob.AI is built on a security-first architecture. It includes universal routing with built-in governance, data residency controls, and compliance policies across all models to prevent vendor lock-in and ensure enterprise-grade protection.
+- [What is the Agent Marketplace?](https://glob.ai): It is a repository where users can access, manage, and optimize both open-source and commercial agents through the Glob.AI platform.
+
+### Keywords
+AI-Native, AI-Native Enterprise, AI-Native Delivery, Autonomous software delivery, Enterprise AI platform, AI software development solution, Autonomous SDLC platform, AI agents for software delivery, AI-powered development services, AI software development platform, AI-native delivery platform, AI Pods enterprise, AI delivery system

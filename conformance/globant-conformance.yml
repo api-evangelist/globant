@@ -1,0 +1,128 @@
+generated: '2026-09-14'
+method: searched
+source: https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance and live probes of glob.ai discovery documents
+provider: Globant
+providerId: globant
+description: >-
+  Standards and compliance posture across Globant's published API surface. Two kinds of evidence are
+  mixed here and labelled as such: certifications the provider claims on its own security page, and
+  machine-checkable conformance we probed directly against the published documents.
+conformance:
+  - id: iso-27001
+    name: ISO/IEC 27001
+    conforms: true
+    method: searched
+    evidence: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance — "Corporate and project-level certified information security management system"'
+    note: Provider claim; no certificate artifact or audit report is published at a public URL.
+  - id: soc2-type2
+    name: SOC 2 Type II
+    conforms: true
+    method: searched
+    evidence: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance — "Certified at the enterprise level, with full product-level SOC 2 Type II certification for our SaaS environment"'
+    note: Provider claim; no trust center or report request flow was found.
+  - id: gdpr
+    name: GDPR
+    conforms: true
+    method: searched
+    evidence: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance — design aligned with international privacy regulations'
+  - id: ccpa
+    name: CCPA
+    conforms: true
+    method: searched
+    evidence: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance — design aligned with international privacy regulations'
+  - id: rfc9727
+    name: 'RFC 9727 — API Catalog (/.well-known/api-catalog)'
+    conforms: true
+    method: probed
+    evidence: 'https://glob.ai/.well-known/api-catalog returned HTTP 200 application/json with a linkset[] carrying service-desc, service-doc and status. Also served at https://aipods.glob.ai/.well-known/api-catalog.'
+    note: >-
+      DOMAIN-STANDARD SIGNATURE for an agent-facing platform — the contract declares its own discovery
+      surface rather than asserting it in prose. The provider's llms.txt names it explicitly as
+      "RFC 9727 catalog of the public API surface".
+  - id: openapi-3.1
+    name: OpenAPI 3.1.0
+    conforms: true
+    method: probed
+    evidence: 'https://glob.ai/openapi.json — "openapi": "3.1.0", servers[0].url https://glob.ai, 2 documented operations with operationIds getCatalog and getHealth.'
+  - id: agent-skills-discovery-0.2.0
+    name: 'Agent Skills discovery 0.2.0 (schemas.agentskills.io)'
+    conforms: true
+    method: probed
+    evidence: 'https://glob.ai/.well-known/agent-skills/index.json declares $schema https://schemas.agentskills.io/discovery/0.2.0/schema.json and lists two skill-md skills; both published sha256 digests were recomputed against the fetched SKILL.md files and MATCH.'
+    note: DOMAIN-STANDARD SIGNATURE — a machine-verifiable skill distribution, digest-pinned by the provider.
+  - id: mcp
+    name: Model Context Protocol
+    conforms: true
+    method: probed
+    evidence: 'https://glob.ai/.well-known/mcp/server-card.json publishes a server card (serverInfo/transport/capabilities) for a 33-tool stdio server. Globant Enterprise AI additionally imports external MCP tool servers via the GEAI Proxy.'
+    note: Client AND server. The server is local-stdio only; there is no hosted MCP endpoint.
+  - id: a2a
+    name: 'A2A (Agent2Agent) Protocol'
+    conforms: partial
+    method: searched
+    evidence: 'https://docs.globant.ai/en/wiki?1179,Importing+Tools+using+MCP+and+A2A+Servers and https://docs.globant.ai/en/wiki?2575,How+to+integrate+an+external+Agent+using+the+A2A+protocol — GEAI imports A2A agents and can expose a tenant Agent over A2A.'
+    note: >-
+      No Globant-hosted AgentCard exists. /.well-known/agent-card.json and /.well-known/agent.json were
+      probed on every host: 404 on api.saia.ai, docs.globant.ai and api.beta.glob.ai; SPA shells (200
+      HTML) on glob.ai and aipods.glob.ai; 401 on api.globant.com; 403 bot challenge on www.globant.com.
+      A2A exposure is a per-tenant capability customers deploy, not a surface Globant publishes.
+  - id: content-signal
+    name: 'Content-Signal directive in robots.txt'
+    conforms: true
+    method: probed
+    evidence: 'https://glob.ai/robots.txt — "Content-Signal: ai-train=no, search=yes, ai-input=yes"'
+    note: Machine-readable AI-usage preference, published rather than merely stated in terms.
+  - id: rfc9457
+    name: 'RFC 9457 — Problem Details for HTTP APIs'
+    conforms: false
+    method: searched
+    evidence: >-
+      https://docs.globant.ai/en/wiki?23,Error+Codes documents a proprietary
+      {"errors":{"id":n,"description":"..."}} envelope. api.beta.glob.ai returns FastAPI's
+      {"detail":"..."}. No application/problem+json anywhere.
+  - id: oauth2
+    name: OAuth 2.0
+    conforms: false
+    method: probed
+    evidence: >-
+      https://glob.ai/auth.md states the origin is not an OAuth issuer and publishes no
+      /.well-known/oauth-authorization-server, /.well-known/oauth-protected-resource or
+      /.well-known/openid-configuration. All three were probed and returned the SPA shell.
+    note: >-
+      Globant Enterprise AI's docs mention temporary OAuth access tokens but publish no authorization
+      server, token endpoint or scope reference, so there is nothing to conform against.
+  - id: oidc
+    name: OpenID Connect Discovery
+    conforms: false
+    method: probed
+    evidence: '/.well-known/openid-configuration probed on glob.ai, aipods.glob.ai, api.beta.glob.ai, api.saia.ai, docs.globant.ai and api.globant.com — SPA shell, 404 or 401 everywhere.'
+  - id: asyncapi
+    name: AsyncAPI
+    conforms: false
+    method: searched
+    evidence: No event, streaming or webhook catalogue was found in the Globant Enterprise AI or Glob.AI documentation, and no AsyncAPI document is served on any host.
+  - id: rfc8594
+    name: 'RFC 8594 — Sunset HTTP header'
+    conforms: false
+    method: searched
+    evidence: >-
+      https://docs.globant.ai/en/wiki?3154,Glob.AI+OS+Lifecycle publishes a dated one-year support
+      window per release but documents no Sunset or Deprecation response headers.
+certifications:
+  - {name: 'ISO/IEC 27001', scope: 'Corporate and project level', source: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance'}
+  - {name: 'SOC 2 Type II', scope: 'Enterprise level plus full product-level certification for the SaaS environment', source: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance'}
+controls_published:
+  encryption_at_rest: AES-256
+  encryption_in_transit: TLS 1.2+
+  data_retention: 'Zero data retention — client data and results are not stored or used to train models'
+  identity: 'SSO and MFA'
+  authorization: 'RBAC under least privilege'
+  source: 'https://docs.globant.ai/en/wiki?3743,Security+Policies+and+Compliance'
+gaps:
+  - 'No trust center URL published.'
+  - 'No vulnerability disclosure policy, security.txt or bug-bounty program found on any host.'
+  - 'No named security contact email.'
+  - 'No public status page.'
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,104 @@
+generated: '2026-09-14'
+method: searched
+source: https://glob.ai/.well-known/mcp/server-card.json
+provider: Globant
+providerId: globant
+name: Glob.AI Hubs Orchestrator MCP Server
+description: >-
+  Globant publishes an MCP server card at https://glob.ai/.well-known/mcp/server-card.json describing
+  an MCP server named "orchestrator" that exposes the Glob.AI Hubs Orchestrator API — projects, goals,
+  plans, work items, runs, artifacts and inbox — to Claude Code, Globant CODA and other MCP-compatible
+  agents. The card and the provider's own published agent skill both state plainly that this is a LOCAL
+  STDIO server and that no hosted HTTP/SSE MCP endpoint exists today.
+status: published
+deployment:
+  mode: local-stdio
+  endpoint: null
+  install: 'uv --directory /path/to/orchestrator-mcp-server run server.py'
+  package: https://github.com/globai/glob-ai-hubs-composer/tree/main/orchestrator-mcp-server
+  auth: api-key
+  verified: probed
+  transport: stdio
+  env:
+    ORCHESTRATOR_URL: 'the orchestrator API base URL, supplied by the Glob.AI console runner setup (card default http://localhost:8000; the hosted orchestrator answers at https://api.beta.glob.ai)'
+    MCP_TOKEN: 'minted by a signed-in human in the Glob.AI console (https://aipods.glob.ai) from a project runner setup; there is no self-service or anonymous token issuance'
+  notes:
+    - >-
+      SEARCH-ONLY finding. The card is served by the provider; the transport block is quoted verbatim
+      from it and was not inferred from prose.
+    - >-
+      https://glob.ai/.well-known/agent-skills/orchestrator-mcp-setup/SKILL.md states: "The orchestrator
+      MCP server is a local stdio server - there is no hosted HTTP/SSE MCP endpoint."
+    - >-
+      No tools/list introspection was attempted: a stdio server has no URL to POST to. The tool list
+      below is the provider's own published catalogue from the card.
+    - >-
+      The card's homepage link (github.com/globai/glob-ai-hubs-composer) was not resolvable
+      unauthenticated at probe time; the repository is presumably private. The card itself is public.
+server_card:
+  file: globant-orchestrator-mcp-server-card.json
+  url: https://glob.ai/.well-known/mcp/server-card.json
+  http_status: 200
+  content_type: application/json
+  server_name: orchestrator
+  server_version: 0.1.0
+  fetched: '2026-09-14'
+capabilities:
+  tools: 33
+  resources: 0
+  prompts: 0
+  input_schemas_published: false
+  input_schemas_note: >-
+    The card publishes tool names and descriptions but no inputSchema per tool. Real input schemas
+    require running the stdio server with a provisioned MCP_TOKEN, which is human-gated.
+tools:
+  - {name: list_projects, description: List projects with optional filters}
+  - {name: get_project, description: Get a project by id}
+  - {name: list_goals, description: List goals, optionally scoped to a project}
+  - {name: get_goal, description: Get a goal by id}
+  - {name: update_goal_status, description: Update a goal's status}
+  - {name: list_goal_plans, description: List plans under a goal}
+  - {name: get_plan, description: Get a plan by id}
+  - {name: get_plan_work_items, description: List work items for a plan}
+  - {name: start_run, description: Start execution of a plan}
+  - {name: get_work_item, description: Get a work item by id}
+  - {name: update_work_item_status, description: Report progress on a work item}
+  - {name: get_run, description: Get a run by id}
+  - {name: get_run_status, description: Get run status}
+  - {name: update_run_status, description: Update run status}
+  - {name: create_artifact, description: Create an artifact on a run}
+  - {name: list_run_artifacts, description: List artifacts for a run}
+  - {name: get_artifact, description: Get an artifact by id}
+  - {name: get_artifact_status, description: Get artifact status}
+  - {name: update_artifact, description: Update an artifact}
+  - {name: list_project_aipods, description: List AI pods for a project}
+  - {name: register_run_agent, description: Register an agent participating in a run}
+  - {name: list_run_agents, description: List agents on a run}
+  - {name: update_run_agent, description: Update a run agent}
+  - {name: create_external_plan, description: Create an external plan}
+  - {name: create_job, description: Create a job}
+  - {name: get_job, description: Get a job by id}
+  - {name: get_plan_content, description: Get plan content}
+  - {name: update_plan_content, description: Update plan content}
+  - {name: get_artifact_content, description: Get artifact content}
+  - {name: list_inbox_items, description: List inbox items}
+  - {name: get_inbox_item, description: Get an inbox item}
+  - {name: mark_inbox_item_read, description: Mark an inbox item read}
+  - {name: get_inbox_unread_count, description: Get inbox unread count}
+related:
+  - type: AgentSkill
+    url: https://glob.ai/.well-known/agent-skills/orchestrator-mcp-setup/SKILL.md
+  - type: Authentication
+    url: https://glob.ai/auth.md
+  - type: OrchestratorAPI
+    url: https://api.beta.glob.ai
+    note: 'Root returns {"message":"Glob AI Hubs Orchestrator API"}; /api/v1/health 200; /api/v1/projects 401 Authentication required; no OpenAPI served (openapi.json/docs/redoc all 404).'
+mcp_client_surface:
+  note: >-
+    Distinct from the above, two Globant products CONSUME MCP rather than serve it — Globant Enterprise
+    AI imports external MCP and A2A tool servers through the GEAI Proxy
+    (https://docs.globant.ai/en/wiki?1179,Importing+Tools+using+MCP+and+A2A+Servers), and the CODA CLI
+    reads MCP servers from ~/.coda/mcp.json. Neither exposes an MCP endpoint of its own.
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

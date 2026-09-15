@@ -1,0 +1,247 @@
+generated: '2026-09-14'
+method: probed
+source: live unauthenticated HTTP probes of every host this record knows
+provider: Globant
+providerId: globant
+description: >-
+  Well-known probe across every Globant-controlled host in this record: the corporate domain
+  (globant.com / www.globant.com), the Globant Enterprise AI documentation host (docs.globant.ai),
+  the GEAI API host (api.saia.ai), the legacy gateway (api.globant.com), and the Glob.AI platform
+  hosts (glob.ai, aipods.glob.ai, api.beta.glob.ai). Only glob.ai and aipods.glob.ai serve real
+  discovery documents. Every 200 returning the Next.js single-page shell is recorded as a MISS, not
+  a document.
+notes:
+  - >-
+    glob.ai and aipods.glob.ai answer 200 with the Next.js application shell for every unmatched
+    /.well-known/* path (security.txt, openid-configuration, oauth-authorization-server,
+    ai-plugin.json, agent-card.json, agent.json). These are SPA catch-alls, not documents, and are
+    recorded with status 200 and a miss note.
+  - >-
+    https://glob.ai/auth.md states explicitly that this origin is not an OAuth issuer and publishes
+    no OIDC/OAuth discovery metadata, which corroborates the SPA-shell reading of those paths.
+  - >-
+    www.globant.com returns 403 from an Imperva/Incapsula edge for every path including /robots.txt.
+    This is a bot challenge against our crawler, not evidence of absence.
+  - >-
+    Two non-standard well-known paths are served and were captured:
+    /.well-known/mcp/server-card.json (saved to mcp/) and /.well-known/agent-skills/index.json
+    (saved here and to skills/).
+hosts:
+  - host: glob.ai
+    documents:
+      - path: /.well-known/api-catalog
+        status: 200
+        file: globant-glob-ai-api-catalog.json
+        content_type: application/json
+        note: RFC 9727 linkset naming service-desc (openapi.json), service-doc (docs/api.md) and status.
+      - path: /.well-known/agent-skills/index.json
+        status: 200
+        file: globant-agent-skills-index.json
+        content_type: application/json
+        note: Agent Skills discovery 0.2.0 index listing two published SKILL.md files; both sha256 digests verified.
+      - path: /.well-known/mcp/server-card.json
+        status: 200
+        file: ../mcp/globant-orchestrator-mcp-server-card.json
+        content_type: application/json
+        note: MCP server card for the local-stdio orchestrator server; 33 tools.
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+        note: MISS - 200 returns the Next.js SPA shell, not an RFC 9116 document.
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: null
+        note: MISS - SPA shell. auth.md states this origin is not an OAuth issuer.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: null
+        note: MISS - SPA shell, not an A2A AgentCard. No agent card written.
+      - path: /.well-known/agent.json
+        status: 200
+        file: null
+        note: MISS - SPA shell (pre-0.3 A2A path).
+  - host: aipods.glob.ai
+    documents:
+      - path: /.well-known/api-catalog
+        status: 200
+        file: globant-aipods-api-catalog.json
+        content_type: application/json
+        note: Same RFC 9727 linkset shape, anchored at https://aipods.glob.ai/.
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/agent.json
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+      - path: /.well-known/ai-plugin.json
+        status: 200
+        file: null
+        note: MISS - SPA shell.
+  - host: api.beta.glob.ai
+    documents:
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: api.saia.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: docs.globant.ai
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+  - host: api.globant.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 401
+        file: null
+        note: Gateway answers 401 {"status":"Error","description":" Authentication Error"} for every path.
+      - path: /.well-known/openid-configuration
+        status: 401
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 401
+        file: null
+      - path: /.well-known/api-catalog
+        status: 401
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 401
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 401
+        file: null
+      - path: /.well-known/agent.json
+        status: 401
+        file: null
+  - host: www.globant.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 403
+        file: null
+        note: Imperva/Incapsula bot challenge on every path, /robots.txt included. Not evidence of absence.
+      - path: /.well-known/api-catalog
+        status: 403
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 403
+        file: null
+      - path: /.well-known/agent.json
+        status: 403
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 403
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 403
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 403
+        file: null
+  - host: globant.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 301
+        file: null
+        note: Redirects to www.globant.com, which bot-challenges.
+      - path: /.well-known/api-catalog
+        status: 301
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 301
+        file: null
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

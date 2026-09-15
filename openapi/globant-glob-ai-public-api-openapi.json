@@ -1,0 +1,275 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Glob.AI public API",
+    "version": "1.0.0",
+    "description": "The unauthenticated API surface of glob.ai. All other endpoints on this origin require a browser session — see /auth.md for how authentication works and what agent access exists today."
+  },
+  "servers": [
+    {
+      "url": "https://glob.ai"
+    }
+  ],
+  "paths": {
+    "/api/catalog": {
+      "get": {
+        "operationId": "getCatalog",
+        "summary": "Public AI Pods catalog",
+        "description": "The AI Pods catalog rendered for the anonymous audience. When the platform hides prices for anonymous viewers, price_unit is an empty string and price fields are not meaningful.",
+        "responses": {
+          "200": {
+            "description": "The catalog.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "version": {
+                      "type": "string"
+                    },
+                    "groups": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "description": {
+                            "type": "string"
+                          },
+                          "offerings": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "description": "One AI Pod offering as rendered for the anonymous audience.",
+                              "properties": {
+                                "name": {
+                                  "type": "string"
+                                },
+                                "sku_id": {
+                                  "type": "string"
+                                },
+                                "problem_statement": {
+                                  "type": "string"
+                                },
+                                "outcome_statement": {
+                                  "type": "string"
+                                },
+                                "what_you_get": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "capabilities_included": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "best_for": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "not_a_fit_for": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                },
+                                "notes": {
+                                  "type": "string"
+                                },
+                                "group_name": {
+                                  "type": "string"
+                                },
+                                "price_per_unit_usd": {
+                                  "type": "number",
+                                  "description": "Per-token price model; no monthly bundle."
+                                },
+                                "unit_price_usd": {
+                                  "type": "number",
+                                  "description": "Displayed price amount; pair with price_unit."
+                                },
+                                "price_unit": {
+                                  "type": "string",
+                                  "enum": [
+                                    "price_per_100k_tokens",
+                                    "price_per_million_tokens",
+                                    ""
+                                  ],
+                                  "description": "Empty string when the offering is unpriced for this audience."
+                                },
+                                "sort_order": {
+                                  "type": "integer",
+                                  "description": "Landing card order (lower = earlier). Optional."
+                                },
+                                "partner": {
+                                  "type": "string",
+                                  "description": "Partner code (e.g. \"aws\"). Optional."
+                                }
+                              },
+                              "required": [
+                                "name",
+                                "sku_id",
+                                "problem_statement",
+                                "outcome_statement",
+                                "what_you_get",
+                                "capabilities_included",
+                                "best_for",
+                                "not_a_fit_for",
+                                "notes",
+                                "group_name",
+                                "price_per_unit_usd",
+                                "unit_price_usd",
+                                "price_unit"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "description",
+                          "offerings"
+                        ]
+                      }
+                    },
+                    "offerings": {
+                      "type": "array",
+                      "description": "Flat list of all offerings, ordered by sort_order.",
+                      "items": {
+                        "type": "object",
+                        "description": "One AI Pod offering as rendered for the anonymous audience.",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "sku_id": {
+                            "type": "string"
+                          },
+                          "problem_statement": {
+                            "type": "string"
+                          },
+                          "outcome_statement": {
+                            "type": "string"
+                          },
+                          "what_you_get": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "capabilities_included": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "best_for": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "not_a_fit_for": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "notes": {
+                            "type": "string"
+                          },
+                          "group_name": {
+                            "type": "string"
+                          },
+                          "price_per_unit_usd": {
+                            "type": "number",
+                            "description": "Per-token price model; no monthly bundle."
+                          },
+                          "unit_price_usd": {
+                            "type": "number",
+                            "description": "Displayed price amount; pair with price_unit."
+                          },
+                          "price_unit": {
+                            "type": "string",
+                            "enum": [
+                              "price_per_100k_tokens",
+                              "price_per_million_tokens",
+                              ""
+                            ],
+                            "description": "Empty string when the offering is unpriced for this audience."
+                          },
+                          "sort_order": {
+                            "type": "integer",
+                            "description": "Landing card order (lower = earlier). Optional."
+                          },
+                          "partner": {
+                            "type": "string",
+                            "description": "Partner code (e.g. \"aws\"). Optional."
+                          }
+                        },
+                        "required": [
+                          "name",
+                          "sku_id",
+                          "problem_statement",
+                          "outcome_statement",
+                          "what_you_get",
+                          "capabilities_included",
+                          "best_for",
+                          "not_a_fit_for",
+                          "notes",
+                          "group_name",
+                          "price_per_unit_usd",
+                          "unit_price_usd",
+                          "price_unit"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "version",
+                    "groups",
+                    "offerings"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "getHealth",
+        "summary": "Platform API health",
+        "responses": {
+          "200": {
+            "description": "Service is healthy.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

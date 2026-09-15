@@ -3,46 +3,223 @@ specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
 provider: Globant
 providerId: globant
+generated: '2026-09-14'
+method: probed
+source: 'GET https://glob.ai/api/catalog (HTTP 200, catalog version 1.20.0, fetched 2026-09-14); https://glob.ai/llms-full.txt; https://glob.ai/en/catalog'
 created: '2026-05-04'
-# Provenance stamped 2026-08-11: this artifact was written by the API Evangelist
-# bulk sweep dated 2026-05-04, not harvested from the provider. See roadmap#35.
-method: generated
-modified: '2026-05-05'
-reconciled: false
+modified: '2026-09-14'
+reconciled: true
+supersedes: >-
+  The 2026-05-04 bulk-sweep artifact, which was written generated and said Globant had no self-service
+  pricing surface at all. That is no longer true: Glob.AI ships a machine-readable catalogue endpoint.
 tags:
   - Software
   - Digital Transformation
-  - AI
+  - Artificial Intelligence
+  - AI Pods
   - Consulting
-description: Globant is an enterprise IT services and digital-engineering firm. It does not operate a
-  public developer API or self-service pricing surface; engagements are custom-quoted as professional
-  services and AI Pods (output-based delivery). Plan structure below describes engagement archetypes,
-  not API tiers.
-notes: Reconcile only after Globant launches a public developer API with posted pricing.
-sources:
-  - https://www.globant.com/
-plans:
-  - id: globant-engagement
-    name: Custom Engagement (Professional Services)
-    type: enterprise
-    description: Standard professional-services engagement priced per pod / time-and-materials / fixed-bid
-      based on scope. Not an API offering.
-    entries:
-      - label: Engagement
-        name: engagement
-        type: subscription
-        metric: contract
-        limit: -1
-        timeFrame: year
-        geo: global
-        unit: 1
-        price: contact sales
-        userMultiplied: false
-    elements:
-      - name: AI Pods (output-based)
-      - name: Industry AI Studios
-      - name: Custom enterprise development
-      - name: Digital strategy consulting
+description: >-
+  Globant publishes a MACHINE-READABLE product catalogue at https://glob.ai/api/catalog and no
+  published price. The endpoint is unauthenticated, is described by the provider's own OpenAPI
+  (operationId getCatalog), and carries a real per-token pricing MODEL — price_per_unit_usd,
+  unit_price_usd and a price_unit enum of price_per_100k_tokens / price_per_million_tokens. For an
+  anonymous caller every one of the 26 offerings returned price_unit "" and a zero amount, which the
+  provider's own agent skill instructs agents to read as "prices withheld from this audience — do not
+  quote them". So the pricing STRUCTURE is public and the pricing NUMBERS are not.
+pricing_model:
+  name: Value-based subscription (supervised tokens)
+  billing_unit: supervised tokens
+  components:
+    - {name: Minimum Usage Fee, cadence: monthly, description: 'Per the selected Plan; covers token consumption up to that amount at the applicable token price.'}
+    - {name: Variable Fee, cadence: usage-based, description: 'Accrues on consumption beyond the Minimum Usage Fee.'}
+  no_seats: true
+  no_hourly: true
+  source: 'https://glob.ai/llms-full.txt'
+  note: >-
+    Plans and applicable fees are displayed on the platform at purchase time; the detailed pricing page
+    requires a signed-in session and https://glob.ai/robots.txt explicitly disallows /pricing and
+    /en/pricing to crawlers.
+plan_count: 0
+plans: []
+plans_note: >-
+  Zero, deliberately. Globant names no tier, publishes no price point and offers no self-service
+  checkout to an anonymous visitor. Padding this list with the 26 catalogue SKUs would misrepresent a
+  product catalogue as a pricing table — the SKUs are recorded separately below, where they belong.
+access:
+  model: private beta, waitlist-gated
+  request_access: https://glob.ai/en/access/request
+  login: https://glob.ai/en/login
+  human_catalog: https://glob.ai/en/catalog
+  legal: https://glob.ai/en/legal
+  note: 'Prospective customers submit name, company, industry and country; Globant reviews and admits.'
+catalog:
+  endpoint: https://glob.ai/api/catalog
+  http_status: 200
+  content_type: application/json
+  version: 1.20.0
+  fetched: '2026-09-14'
+  authentication: none
+  cache: 'Server-side cached; the provider expects up to ~10 minutes of staleness.'
+  groups: 6
+  offerings: 26
+  offerings_with_visible_price: 0
+  price_unit_enum: [price_per_100k_tokens, price_per_million_tokens, '']
+  partners_observed: {aws: 3, salesforce: 3, google: 2, vercel: 2, anthropic: 1, nvidia: 1, none: 14}
+  agent_skill: https://glob.ai/.well-known/agent-skills/globai-catalog/SKILL.md
+catalog_groups:
+- group: Modernization
+  offerings:
+  - name: Legacy Modernization Assessment
+    sku_id: MODERNIZATION-STRATEGY-ASSESSMENT
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: GCP Migration Assessment
+    sku_id: DB-MIGRATION-ASSESSMENT
+    partner: google
+    price_unit: null
+    unit_price_usd: 0
+  - name: Stack Modernization
+    sku_id: STACK-MODERNIZATION
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Monolith Decomposition
+    sku_id: MONOLITH-DECOMPOSITION
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: DB Migration to GCP
+    sku_id: DB-MIGRATION-GCP
+    partner: google
+    price_unit: null
+    unit_price_usd: 0
+- group: Innovation
+  offerings:
+  - name: AI Prototype Assessment
+    sku_id: VIBE-PROTOTYPE-ASSESSMENT
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Product Discovery
+    sku_id: PRODUCT-DISCOVERY
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+- group: Digital Delivery
+  offerings:
+  - name: Digital Product Launch
+    sku_id: DIGITAL-PRODUCT-LAUNCH
+    partner: aws
+    price_unit: null
+    unit_price_usd: 0
+  - name: AI Prototype Productization
+    sku_id: VIBE-TO-PRODUCTION
+    partner: vercel
+    price_unit: null
+    unit_price_usd: 0
+  - name: API Product Launch
+    sku_id: API-LAUNCH
+    partner: aws
+    price_unit: null
+    unit_price_usd: 0
+  - name: Marketing Campaign Launch
+    sku_id: CAMPAIGN-LAUNCH
+    partner: vercel
+    price_unit: null
+    unit_price_usd: 0
+  - name: Ongoing Product Delivery
+    sku_id: BACKLOG-VELOCITY
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+- group: Delivery Enablement
+  offerings:
+  - name: Product Definition
+    sku_id: PRODUCT-DEFINITION
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Architecture Definition
+    sku_id: ARCHITECTURE-DEFINITION
+    partner: aws
+    price_unit: null
+    unit_price_usd: 0
+  - name: Test Strategy & Design
+    sku_id: TEST-STRATEGY-DESIGN
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Story Refinement
+    sku_id: STORY-REFINEMENT
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Code Development
+    sku_id: CODE-DEVELOPMENT
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Test Automation
+    sku_id: TEST-AUTOMATION
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Shift-Left Quality
+    sku_id: SHIFT-LEFT-QUALITY
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+- group: Security & Stability
+  offerings:
+  - name: Secure Code Review (by Anthropic)
+    sku_id: APPSEC-CODEREVIEW
+    partner: anthropic
+    price_unit: null
+    unit_price_usd: 0
+  - name: Application Security Pentesting
+    sku_id: APPSEC-VELOCITY
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+  - name: Bug Fixing
+    sku_id: BUG-FIXING
+    partner: null
+    price_unit: null
+    unit_price_usd: 0
+- group: Platform Services
+  offerings:
+  - name: Salesforce Core
+    sku_id: SALESFORCE-CORE
+    partner: salesforce
+    price_unit: null
+    unit_price_usd: 0
+  - name: Marketing Cloud
+    sku_id: MARKETING-CLOUD
+    partner: salesforce
+    price_unit: null
+    unit_price_usd: 0
+  - name: MuleSoft Enterprise Integration
+    sku_id: MULESOFT
+    partner: salesforce
+    price_unit: null
+    unit_price_usd: 0
+  - name: Digital Twin Engineering (NVIDIA Omniverse)
+    sku_id: DIGITAL-TWIN
+    partner: nvidia
+    price_unit: null
+    unit_price_usd: 0
+other_surfaces:
+  - surface: Globant Enterprise AI (Glob.AI OS)
+    pricing_published: false
+    note: >-
+      No price list. Cost and request ceilings are configured per organization and per project through
+      the Usage Limits API, and per-model AI cost is documented at
+      https://docs.globant.ai/en/wiki?5234,AI+Models+Cost. Commercial terms come from the subscription
+      contract, not a public page.
+  - surface: Globant professional services
+    pricing_published: false
+    note: Custom-quoted engagements; no public rate card.
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

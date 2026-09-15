@@ -1,0 +1,24 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://glob.ai/",
+      "service-desc": [
+        {
+          "href": "https://glob.ai/openapi.json",
+          "type": "application/openapi+json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://glob.ai/docs/api.md",
+          "type": "text/markdown"
+        }
+      ],
+      "status": [
+        {
+          "href": "https://glob.ai/api/v1/health"
+        }
+      ]
+    }
+  ]
+}

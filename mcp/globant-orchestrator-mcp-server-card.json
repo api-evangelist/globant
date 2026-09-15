@@ -1,0 +1,160 @@
+{
+  "serverInfo": {
+    "name": "orchestrator",
+    "version": "0.1.0",
+    "description": "MCP server exposing the GlobAI Hubs Orchestrator API — projects, goals, plans, work items, runs, artifacts, and inbox — for Claude Code, Coda, and other MCP-compatible agents.",
+    "homepage": "https://github.com/globai/glob-ai-hubs-composer/tree/main/orchestrator-mcp-server"
+  },
+  "transport": {
+    "type": "stdio",
+    "command": "uv",
+    "args": [
+      "--directory",
+      "/path/to/orchestrator-mcp-server",
+      "run",
+      "server.py"
+    ],
+    "env": {
+      "ORCHESTRATOR_URL": "http://localhost:8000",
+      "MCP_TOKEN": "${MCP_TOKEN}"
+    }
+  },
+  "capabilities": {
+    "tools": [
+      {
+        "name": "list_projects",
+        "description": "List projects with optional filters"
+      },
+      {
+        "name": "get_project",
+        "description": "Get a project by id"
+      },
+      {
+        "name": "list_goals",
+        "description": "List goals, optionally scoped to a project"
+      },
+      {
+        "name": "get_goal",
+        "description": "Get a goal by id"
+      },
+      {
+        "name": "update_goal_status",
+        "description": "Update a goal's status"
+      },
+      {
+        "name": "list_goal_plans",
+        "description": "List plans under a goal"
+      },
+      {
+        "name": "get_plan",
+        "description": "Get a plan by id"
+      },
+      {
+        "name": "get_plan_work_items",
+        "description": "List work items for a plan"
+      },
+      {
+        "name": "start_run",
+        "description": "Start execution of a plan"
+      },
+      {
+        "name": "get_work_item",
+        "description": "Get a work item by id"
+      },
+      {
+        "name": "update_work_item_status",
+        "description": "Report progress on a work item"
+      },
+      {
+        "name": "get_run",
+        "description": "Get a run by id"
+      },
+      {
+        "name": "get_run_status",
+        "description": "Get run status"
+      },
+      {
+        "name": "update_run_status",
+        "description": "Update run status"
+      },
+      {
+        "name": "create_artifact",
+        "description": "Create an artifact on a run"
+      },
+      {
+        "name": "list_run_artifacts",
+        "description": "List artifacts for a run"
+      },
+      {
+        "name": "get_artifact",
+        "description": "Get an artifact by id"
+      },
+      {
+        "name": "get_artifact_status",
+        "description": "Get artifact status"
+      },
+      {
+        "name": "update_artifact",
+        "description": "Update an artifact"
+      },
+      {
+        "name": "list_project_aipods",
+        "description": "List AI pods for a project"
+      },
+      {
+        "name": "register_run_agent",
+        "description": "Register an agent participating in a run"
+      },
+      {
+        "name": "list_run_agents",
+        "description": "List agents on a run"
+      },
+      {
+        "name": "update_run_agent",
+        "description": "Update a run agent"
+      },
+      {
+        "name": "create_external_plan",
+        "description": "Upload a pre-built plan with work items"
+      },
+      {
+        "name": "create_job",
+        "description": "Create an async job"
+      },
+      {
+        "name": "get_job",
+        "description": "Get an async job by id"
+      },
+      {
+        "name": "get_plan_content",
+        "description": "Get a plan's full content"
+      },
+      {
+        "name": "update_plan_content",
+        "description": "Update a plan's content"
+      },
+      {
+        "name": "get_artifact_content",
+        "description": "Get an artifact's content"
+      },
+      {
+        "name": "list_inbox_items",
+        "description": "List inbox items for a subscription"
+      },
+      {
+        "name": "get_inbox_item",
+        "description": "Get an inbox item by id"
+      },
+      {
+        "name": "mark_inbox_item_read",
+        "description": "Mark an inbox item read/unread"
+      },
+      {
+        "name": "get_inbox_unread_count",
+        "description": "Get unread inbox count for a subscription"
+      }
+    ],
+    "resources": [],
+    "prompts": []
+  }
+}
