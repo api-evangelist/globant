@@ -32,7 +32,7 @@ tags:
   - Digital Transformation
   - Artificial Intelligence
   - Agents
-  - Model Context Protocol
+  - MCP
   - Consulting
   - Enterprise
 tags_raw:
@@ -57,70 +57,75 @@ created: '2026-04-19'
 modified: '2026-09-14'
 specificationVersion: '0.23'
 apis:
-  - aid: globant:globant-api
-    name: Globant Enterprise AI (Glob.AI OS) API
-    tags:
-      - Artificial Intelligence
-      - Agents
-      - Software
-      - Enterprise
-    tags_raw:
-      - AI
-      - Agents
-      - Software
-      - Enterprise
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://api.saia.ai
-    humanURL: https://docs.globant.ai
-    properties:
-      - url: https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference
-        type: Documentation
-      - url: https://docs.globant.ai/en/wiki?564,API+Tokens
-        type: Authentication
-      - url: https://docs.globant.ai/en/wiki?802,Usage+Limits+API
-        type: RateLimits
-    description: >-
-      The Globant Enterprise AI platform API. Twenty-six documented API groups — Access Control, Agents,
-      Agentic Processes, Analytics, Assistant, Chat, Corpus, Corpus Semantic Similarity, Embeddings,
-      Evaluation, Feedback, File, Images, Integrations, LLM, Organization, omni-parser, RAG Assistants,
-      RAG Document, Rerank, Responses, Security, Session Activity, System, Tools and Usage Limits —
-      authenticated with project- or organization-scoped HTTP Bearer tokens. The base host api.saia.ai
-      is inherited from the platform's original SAIA name; Globant acquired GeneXus, which built it, and
-      renamed the product Globant Enterprise AI in October 2024. No OpenAPI is published for this
-      surface.
-  - aid: globant:glob-ai-public-api
-    name: Glob.AI Public API
-    tags:
-      - Artificial Intelligence
-      - Agents
-      - Software
-    tags_raw:
-      - AI
-      - Agents
-      - Software
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    baseURL: https://glob.ai
-    humanURL: https://glob.ai/docs/api.md
-    properties:
-      - url: openapi/globant-glob-ai-public-api-openapi.json
-        type: OpenAPI
-      - url: overlays/globant-glob-ai-public-api-overlay.yaml
-        type: Overlay
-      - url: https://glob.ai/docs/api.md
-        type: Documentation
-      - url: https://glob.ai/auth.md
-        type: Authentication
-      - url: https://glob.ai/.well-known/api-catalog
-        type: APICatalog
-      - url: mcp/globant-tool-crosswalk.yml
-        type: ToolCrosswalk
-    description: >-
-      The unauthenticated surface of the Glob.AI AI-native delivery platform, described by the
-      provider's own OpenAPI 3.1.0 at https://glob.ai/openapi.json. Two anonymous operations —
-      GET /api/catalog, the machine-readable AI Pods catalogue with its per-token pricing model, and
-      GET /api/v1/health — plus a published auth.md that states explicitly what does not exist so agents
-      stop probing for it. Everything else on the origin requires a browser SSO session.
+- aid: globant:globant-api
+  name: Globant Enterprise AI (Glob.AI OS) API
+  tags:
+  - Artificial Intelligence
+  - Agents
+  - Software
+  - Enterprise
+  tags_raw:
+  - AI
+  - Agents
+  - Software
+  - Enterprise
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  baseURL: https://api.saia.ai
+  humanURL: https://docs.globant.ai
+  properties:
+  - url: https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference
+    type: Documentation
+  - url: https://docs.globant.ai/en/wiki?564,API+Tokens
+    type: Authentication
+  - url: https://docs.globant.ai/en/wiki?802,Usage+Limits+API
+    type: RateLimits
+  description: >-
+    The Globant Enterprise AI platform API. Twenty-six documented API groups — Access Control, Agents,
+    Agentic Processes, Analytics, Assistant, Chat, Corpus, Corpus Semantic Similarity, Embeddings, Evaluation,
+    Feedback, File, Images, Integrations, LLM, Organization, omni-parser, RAG Assistants, RAG Document,
+    Rerank, Responses, Security, Session Activity, System, Tools and Usage Limits — authenticated with
+    project- or organization-scoped HTTP Bearer tokens. The base host api.saia.ai is inherited from the
+    platform's original SAIA name; Globant acquired GeneXus, which built it, and renamed the product Globant
+    Enterprise AI in October 2024. No OpenAPI is published for this surface.
+- aid: globant:globant-catalog-api
+  name: Globant Catalog API
+  description: The Catalog API from Globant — 1 operation(s) for catalog.
+  humanURL: https://docs.globant.ai
+  baseURL: https://api.saia.ai
+  tags:
+  - Catalog
+  properties:
+  - type: OpenAPI
+    url: openapi/globant-catalog-api-openapi.yml
+  - type: Documentation
+    url: https://glob.ai/docs/api.md
+  - type: Authentication
+    url: https://glob.ai/auth.md
+  - type: APICatalog
+    url: https://glob.ai/.well-known/api-catalog
+  - type: ToolCrosswalk
+    url: mcp/globant-tool-crosswalk.yml
+- aid: globant:globant-health-api
+  name: Globant Health API
+  description: The Health API from Globant — 1 operation(s) for health.
+  humanURL: https://docs.globant.ai
+  baseURL: https://api.saia.ai
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/globant-health-api-openapi.yml
+  - type: Documentation
+    url: https://glob.ai/docs/api.md
+  - type: Authentication
+    url: https://glob.ai/auth.md
+  - type: APICatalog
+    url: https://glob.ai/.well-known/api-catalog
+  - type: ToolCrosswalk
+    url: mcp/globant-tool-crosswalk.yml
 common:
+  - type: Overlay
+    url: overlays/globant-glob-ai-public-api-overlay.yaml
   - type: DeveloperPortal
     url: https://docs.globant.ai/
   - type: Documentation
