@@ -1,0 +1,14 @@
+{
+  "repo": "globant",
+  "feeds": [
+    {
+      "source": "https://globant-services-noc.atlassian.net/helpcenter/GEAIS/user/login",
+      "feed_url": "https://globant-services-noc.atlassian.net/helpcenter/GEAIS/user/login",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-09-19T20:17:39Z"
+}
