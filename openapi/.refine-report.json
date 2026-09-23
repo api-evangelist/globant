@@ -1,0 +1,26 @@
+{
+  "provider": "globant",
+  "sources": [
+    "_original/globant-glob-ai-public-api-openapi.json"
+  ],
+  "outputs": [
+    "globant-catalog-api-openapi.yml",
+    "globant-health-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "globant-glob-ai-public-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "globant-glob-ai-public-api-openapi.json: tagged paths GET /api/catalog -> Catalog",
+    "globant-glob-ai-public-api-openapi.json: tagged paths GET /api/v1/health -> Health",
+    "globant-glob-ai-public-api-openapi.json: declared missing tag: Catalog",
+    "globant-glob-ai-public-api-openapi.json: declared missing tag: Health",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "globant-catalog-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "globant-health-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
