@@ -1,0 +1,12 @@
+{
+ "url": "https://glob.ai/openapi.json",
+ "requested_url": "https://glob.ai/openapi.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 11105,
+ "sha256": "f29045e3aa03c6847f839c117a5fda20a12609f800839ef5d55d307756662ccb",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
