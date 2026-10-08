@@ -124,6 +124,8 @@ apis:
   - type: ToolCrosswalk
     url: mcp/globant-tool-crosswalk.yml
 common:
+  - type: FinOps
+    url: finops/globant-finops.yml
   - type: Overlay
     url: overlays/globant-glob-ai-public-api-overlay.yaml
   - type: DeveloperPortal
