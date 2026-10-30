@@ -1,4 +1,4 @@
-# Globant (globant)
+# Globant
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,23 +64,128 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Globant is a major US corporation and Fortune 1000 company. The Globant API provides programmatic access to its platform services, data, and integrations for enterprise customers and partners.
+Globant is a NYSE-listed digital and cognitive transformation company that, through two distinct platforms, publishes a genuinely agent-facing API surface. Globant Enterprise AI (Glob.AI OS) — the platform that began life as GeneXus' SAIA and was renamed after Globant acquired GeneXus — documents 26 API groups covering agents, agentic processes, RAG, corpora, tools, embeddings, guardrails and usage limits at api.saia.ai, with a Python SDK (PyGEAI), a geai CLI, a full numeric error registry and a dated one-year support window per release. Separately, Glob.AI, the AI-native delivery platform launched in August 2026, publishes an OpenAPI 3.1 description, an RFC 9727 api-catalog, an llms.txt, digest-pinned Agent Skills and an MCP server card at glob.ai. Globant also ships the CODA agentic coding CLI.
 
-**URL:** [Visit APIs.json URL](https://raw.githubusercontent.com/api-evangelist/globant/refs/heads/main/apis.yml)
+**Areas:** Software · Digital Transformation · Artificial Intelligence · Agents · MCP · Consulting · Enterprise
 
-**Run:** [Capabilities Using Naftiko](https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=company-api-evangelist&utm_content=repo)
+## Globant on APIs.io
 
-## Tags:
+Everything profiled for Globant is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/globant/](https://apis.io/providers/globant/)** — or go straight to one of the APIs or properties below.
 
- - Software, Digital Transformation, AI
+### APIs (3)
 
-## Timestamps
+- [Globant Enterprise AI (Glob.AI OS) API](https://apis.io/apis/globant/globant-api/) — The Globant Enterprise AI platform API. Twenty-six documented API groups — Access Control, Agents, Agentic Processes, Analytics, Assistant, Chat, Corpus,…
+- [Globant Catalog API](https://apis.io/apis/globant/globant-catalog-api/) — The Catalog API from Globant — 1 operation(s) for catalog.
+- [Globant Health API](https://apis.io/apis/globant/globant-health-api/) — The Health API from Globant — 1 operation(s) for health.
 
-- **Created:** 2026-04-19
-- **Modified:** 2026-04-19
+### Published properties
 
-## Maintainers
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**FN:** Kin Lane
+#### MCP servers (1)
 
-**Email:** kin@apievangelist.com
+Model Context Protocol servers that expose the API to agents.
+
+- [Glob.AI Hubs Orchestrator MCP Server](https://apis.io/servers/globant/glob-ai-hubs-orchestrator-mcp-server/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Globant Glob Ai Public Api Overlay](https://apis.io/overlays/globant/globant-glob-ai-public-api-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Globant Authentication](https://apis.io/security/globant/globant-authentication/)
+- [Globant Domain Security](https://apis.io/security/globant/globant-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Globant Plans Pricing](https://apis.io/plans/globant/globant-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Globant Rate Limits](https://apis.io/rate-limits/globant/globant-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Globant Finops](https://apis.io/finops/globant/globant-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.globant.com)
+- [Documentation](https://docs.globant.ai/en/wiki?4458,Table+of+contents%3AGlob.AI+OS,)
+- [Getting started](https://docs.globant.ai/en/wiki?4623,Getting+started+with+Glob.AI+OS)
+- [API reference](https://docs.globant.ai/en/wiki?20,Glob.AI+OS+API+Reference)
+- [Pricing](https://glob.ai/en/catalog)
+- [Sign up](https://glob.ai/en/access/request)
+- [Support](https://globant-services-noc.atlassian.net/helpcenter/GEAIS/user/login)
+- [Blog](https://stayrelevant.globant.com/en/)
+- [Terms of service](https://glob.ai/en/legal)
+- [Privacy policy](https://glob.ai/en/legal#privacy)
+- [GitHub](https://github.com/globant)
+
+## API Evangelist rating
+
+**Kin Score 43.2** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 81.7 |
+| Contract quality | 40.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 26.3 |
+| Developer ergonomics | 78.6 |
+| Access clarity | 14.5 |
+
+**Agent readiness 35.7** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | na |
+| MCP Server | documented (partial credit) |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | na |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | yes |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | na |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+
+**Regulatory alignment 20.0** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/globant/](https://apis.io/providers/globant/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Globant: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/globant/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
